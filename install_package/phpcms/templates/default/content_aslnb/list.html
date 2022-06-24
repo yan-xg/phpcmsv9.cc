@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>{$catname}-{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}">
+    <meta name="description" content="{$SEO['description']}">
+    {template "content","meta"}
+</head>
+<style>
+    .pagination li{display: inline;}
+</style>
+<body class="archive category category-tuiguang category-53 el-boxed">
+{template "content","header"}
+
+<div id="wrap">
+  <div class="container wrap">
+    <div class="main">
+      <div class="sec-panel sec-panel-default">
+        <div class="sec-panel-head">
+            <h1>您现在的位置是：<a href="{siteurl($siteid)}">主页</a> > {catpos($catid)}</h1>
+        </div>
+        <ul class="post-loop post-loop-default cols-0 clearfix">
+            {pc:content action="lists" catid="$catid" num="10" order="id DESC" page="$page"}
+            {php $categorys = getcache('category_content_'.$siteid,'commons');}
+            {loop $data $r}
+            {php $category = $categorys[$r[catid]];}
+            {php $modelid = $category['modelid'];}
+            {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+            {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+            <li class="item">
+                <div class="item-img">
+                    <a class="item-img-inner" href="{$r['url']}" title="{$r['title']}" target="_blank">
+                    <img class="j-lazy" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" width="480" height="300" alt="{$r['title']}">
+                    </a>
+                    <a class="item-category" href="{$CATEGORYS[$r[catid]][url]}" target="_blank">{$CATEGORYS[$r[catid]][catname]}</a>
+                </div>
+                <div class="item-content">
+                    <h2 class="item-title"> <a href="{$r['url']}" title="{$r['title']}" target="_blank"> {$r['title']} </a> </h2>
+                    <div class="item-excerpt">
+                        <p>{$r['description']}</p>
+                    </div>
+                    <div class="item-meta">
+                        <span class="item-meta-li date"></span>
+                        <span class="item-meta-li views" title="{$r['title']}">
+                            <i class="fa fa-eye"></i> {$views}
+                        </span>
+                    </div>
+                </div>
+            </li>
+            {/loop}
+        </ul>
+            <div class="pagination clearfix">{$li_pages}</div>
+            {/pc}
+      </div>
+    </div>
+
+      <aside class="sidebar">
+
+          <div id="wpcom-post-thumb-8" class="widget widget_post_thumb">
+              <h3 class="widget-title">推荐文章</h3>
+              <ul>
+                  {pc:content action="position" posid="2" order="listorder DESC" num="3"}
+                  {loop $data $r}
+                  <li class="item">
+                      <div class="item-img"> <a class="item-img-inner" href="{$r['url']}" title="{$r['title']}"> <img class="j-lazy" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" width="480" height="300" alt="{$r['title']}"> </a> </div>
+                      <div class="item-content">
+                          <p class="item-title"><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></p>
+                          <p class="item-date">{date('Y-m-d',$r[inputtime])}</p>
+                      </div>
+                  </li>
+                  {/loop}
+                  {/pc}
+              </ul>
+          </div>
+
+          <div id="wpcom-post-thumb-2" class="widget widget_post_thumb">
+              <h3 class="widget-title">热门文章</h3>
+              <ul>
+                  {pc:get sql="SELECT * FROM `v9_news` a left join `v9_hits` p on a.catid=p.catid WHERE a.catid=$catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" num="3"}
+                  {loop $data $r}
+                  <li class="item">
+                      <div class="item-img"> <a class="item-img-inner" href="{$r['url']}" title="{$r['title']}"> <img class="j-lazy" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" width="480" height="300" alt="{$r['title']}"> </a> </div>
+                      <div class="item-content">
+                          <p class="item-title"><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></p>
+                          <p class="item-date">{date('Y-m-d',$r[inputtime])}</p>
+                      </div>
+                  </li>
+                  {/loop}
+                  {/pc}
+              </ul>
+          </div>
+
+          <div id="wpcom-post-thumb-3" class="widget widget_post_thumb">
+              <h3 class="widget-title">随机文章</h3>
+              <ul>
+                  {pc:get sql="SELECT * FROM v9_news a left join v9_news_data b on a.id=b.id WHERE a.catid=$catid ORDER BY rand()" num="3" cache="3600"}
+                  {loop $data $r}
+                  <li class="item">
+                      <div class="item-img"> <a class="item-img-inner" href="{$r['url']}" title="{$r['title']}"> <img class="j-lazy" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" width="480" height="300" alt="{$r['title']}"> </a> </div>
+                      <div class="item-content">
+                          <p class="item-title"><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></p>
+                          <p class="item-date">{date('Y-m-d',$r[inputtime])}</p>
+                      </div>
+                  </li>
+                  {/loop}
+                  {/pc}
+              </ul>
+          </div>
+
+      </aside>
+ </div>
+</div>
+
+{template "content","footer"}
+</body>
+</html>

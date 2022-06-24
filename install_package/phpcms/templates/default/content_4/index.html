@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}" />
+    <meta name="description" content="{$SEO['description']}" />
+    {template "content","meta"}
+</head>
+<body>
+<div id="wrapper">
+    {template "content","header"}
+
+    <div id="main">
+    <div class="wrap">
+      <div class="container mb30">
+        <div class="slider">
+          <ul id="suxingmeslider">
+              {pc:content  action="position" posid="1"  order="listorder DESC" thumb="1" num="5"}
+              {loop $data $r}
+              <li> <a class="item" href="{$r['url']}" target="_blank" title="{$r['title']}"> <img src="{thumb($r['thumb'])}" alt="{$r['title']}" class="thumbnail"/> </a> </li>
+              {/loop}
+              {/pc}
+          </ul>
+        </div>
+      </div>
+
+      <div class="index-sticky mb30">
+        <div class="sticky-title">
+          <h3>头条推荐</h3>
+        </div>
+        <div class="sticky">
+          <ul class="aa">
+              {pc:content action="position" posid="2" order="listorder DESC" num="1"}
+              {loop $data $r}
+              <div class="pic345"><a rel="nofollow" href="{$r['url']}"title="{$r['title']}" target="_blank"> <img class="thumbnail" src="{thumb($r['thumb'])}" alt="{$r['title']}"/> </a> </div>
+              <a class="title" href="{$r['url']}" title="{$r['title']}" target="_blank"><h2>{$r['title']}</h2></a>
+              <p class="sticky-info">{str_cut($r['description'],30)}...</p>
+              {/loop}
+              {/pc}
+          </ul>
+          <ul class="bb">
+              {pc:content action="position" posid="2" order="listorder DESC" start="1" num="2"}
+              {loop $data $r}
+              <li>
+                  <div  class="pic80"> <a rel="nofollow" href="{$r['url']}" title="{$r['title']}" target="_blank"> <img src="{thumb($r['thumb'])}" alt="{$r['title']}"/> </a> </div>
+                  <a class="title" href="{$r['url']}" title="{$r['title']}" target="_blank">
+                      <h2>{$r['title']}</h2>
+                  </a>
+              </li>
+              {/loop}
+              {/pc}
+          </ul>
+        </div>
+      </div>
+
+      <div class="index-post mb30">
+        <div class="article-title">
+          <h3>最新文章</h3>
+        </div>
+        <div class="posts">
+            {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="10" cache="3600"}
+            {php $categorys = getcache('category_content_'.$siteid,'commons');}
+            {loop $data $r}
+            {php $category = $categorys[$r[catid]];}
+            {php $modelid = $category['modelid'];}
+            {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+            {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+            <div class="content">
+                <div class="content-header">
+                    <a href="{$r['url']}" title="{$r['title']}" target="_blank"><h2>{$r['title']}</h2></a>
+                    <div class="content-info">
+                        <span class="mr10 postclock">({date('Y-m-d',$r[inputtime])})</span>
+                        <span class="mr10 postuser"><i class="icon-user"></i>{$r['username']}<a></a></span>
+                        <span class="mr10 posteye"><i class=" icon-eye" ></i>{$views}</span>
+                    </div>
+                </div>
+
+                <div class="content-img"> <a href="{$r['url']}" title="{$r['title']}" target="_blank"> <img class="lazy thumbnail" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" alt="{$r['title']}" /> </a> </div>
+                <div class="content-note">
+                    <p>{$r['description']}...</p>
+                    <span class="category-color"><a href="{$CATEGORYS[$r[catid]][url]}">{$CATEGORYS[$r[catid]][catname]}</a></span>
+                </div>
+            </div>
+            {/loop}
+            {/pc}
+        </div>
+
+        <div class="clearfix"></div>
+      </div>
+      <div class="index-list mb30">
+          {pc:get sql="SELECT * FROM `v9_category` ORDER BY items DESC"  num="2" return="data"}
+          {loop $data $r}
+            <div class="list">
+              <div class="list-box">
+                  <div class="list-title">
+                      <a class="title" href="{$r[url]}"><h3>{$r[catname]}</h3></a>
+                  </div>
+                  {pc:get sql="SELECT * FROM `v9_news` a left join `v9_hits` p on a.catid=p.catid WHERE a.catid=$r[catid] and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.dayviews DESC" num="4" return="data2"}
+                  {loop $data2 $r2}
+                  {if $n==1}
+                  <ul class="aa">
+                      <div class="pic340">
+                          <a rel="nofollow" href="{$r2['url']}" title="{$r2['title']}" target="_blank">
+                             <img class="thumbnail" src="{thumb($r2['thumb'])}" alt="{$r2['title']}"/>
+                              <div class="cover-text">
+                                  <div class="text-detail"><p class="text-read"><i class=" icon-search"></i></p></div>
+                              </div>
+                          </a>
+                      </div>
+                      <h2><a href="{$r2['url']}" title="{$r2['title']}" target="_blank">{$r2['title']}</a></h2>
+                      <p>{str_cut($r2['description'],100)}...<a rel="nofollow"  href="{$r2['url']}" target="_blank">[详细]</a></p>
+                  </ul>
+                  {else}
+                    {if $n==2} <ul class="bb"> {/if}
+                      <li>
+                          <div class="pic80">
+                              <a rel="nofollow" href="{$r2['url']}" title="{$r2['title']}" target="_blank"><img class="thumbnail" src="{thumb($r2['thumb'])}" alt="{$r2['title']}"/> </a>
+                          </div>
+                          <a class="title" href="{$r2['url']}" title="{$r2['title']}" target="_blank">{$r2['title']}</a>
+                          <span class="mr10"><i class="icon-clock"></i>{date('Y-m-d',$r2[inputtime])} </span>
+                      </li>
+                  {/if}
+                  {/loop}
+                    </ul>
+                  {/pc}
+
+              </div>
+          </div>
+          {/loop}
+          {/pc}
+
+        <script type="text/javascript" src="{APP_PATH}/statics/4/js/masonry-docs.min.js"></script>
+        <script>
+            $(function() {
+                var $container = $('.index-list');
+                $container.imagesLoaded(function() {
+                    $container.masonry({
+                    itemSelector: '.list',
+                    gutter: 0,
+                    isAnimated: true,
+                    });
+                });
+            });
+        </script>
+      </div>
+
+      <div class="index-appoint mb30">
+        <div class="article-title">
+          <h3>推荐阅读</h3>
+        </div>
+        <div class="site-bottom">
+          <ul>
+              {pc:content action="position" posid="12" order="listorder DESC" thumb="1" num="4"}
+              {php $categorys = getcache('category_content_'.$siteid,'commons');}
+              {loop $data $r}
+              {php $category = $categorys[$r[catid]];}
+              {php $modelid = $category['modelid'];}
+              {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+              {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+              <li>
+                  <div class="box"> <a href="{$r['url']}" class="title" title="{$r['title']}">{$r['title']}</a> <a href="{$r['url']}" title="{$r['title']}" rel="bookmark 	external" target="_blank"> <img class="thumbnail" src="{thumb($r['thumb'])}" alt="{$r['title']}"/> </a>
+                      <p class="desc">{str_cut($r2['description'],60)}...</p>
+                      <div class="action"> <a href="{$r['url']}" class="read" title="{$r['title']}">阅读</a> <span class="amount">{$views}</span> </div>
+                  </div>
+              </li>
+              {/loop}
+              {/pc}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="sidebar">
+    <div class="widget widget_suxingme_ad">
+      <div class="widget_ads"></div>
+    </div>
+    <div class="widget widget_suxingme_hotpost">
+      <div class="w_title">
+        <h3>热门文章</h3>
+      </div>
+        {pc:get sql="SELECT * FROM `v9_news` a,`v9_hits` p WHERE a.catid=p.catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" start="6"  num="3"}
+        {php $categorys = getcache('category_content_'.$siteid,'commons');}
+        {loop $data $r}
+        {php $category = $categorys[$r[catid]];}
+        {php $modelid = $category['modelid'];}
+        {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+        {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+        <li><a href="{$r['url']}" rel="bookmark" title="{$r['title']}">
+            <div class="overlay"></div>
+            <img src="{thumb($r['thumb'])}" alt="{$r['title']}" class="thumbnail" /><span><i class="icon-eye"></i>{$views}</span>
+            <p class="title">{$r['title']}</p>
+        </a></li>
+        {/loop}
+        {/pc}
+    </div>
+
+    <div class="widget widget_suxingme_mostviews">
+      <div class="w_title">
+        <h3>随便看看</h3>
+      </div>
+        {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY rand()" num="3" cache="3600"}
+        {loop $data $v}
+        <li>
+            <a href="{$v['url']}" rel="bookmark" title="{$v['title']}">
+                <div class="overlay"></div>
+                <img src="{thumb($r['thumb'])}" alt="{$v['title']}" class="thumbnail" /><span></span>
+                <p class="title">{$v['title']}</p>
+            </a>
+        </li>
+        {/loop}
+        {/pc}
+    </div>
+
+    <div class="widget suxingme_tag">
+      <div class="w_title">
+        <h3>热门标签</h3>
+      </div>
+      <div class="widge_tags">
+        <ul class="widget_tags_ul">
+            {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+            {loop $data $r}
+            <li><a href="{$r[url]}" title="{$r[catname]}" >{$r[catname]} </a></li>
+            {pc:get sql="select * from v9_category where parentid =$r[catid] order by listorder ASC" return="data"}
+            {loop $data $r2}
+            <li><a href="{$r2[url]}" title="{$r2[catname]}" >{$r2[catname]} </a></li>
+            {/loop}
+            {/pc}
+            {/loop}
+            {/pc}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{template "content","footer"}
+
+<script type="text/javascript" src="{APP_PATH}/statics/4/js/responsiveslides.min.js"></script>
+<script>
+		$(function() {
+			$('#suxingmeslider').responsiveSlides({
+				pager: true,
+				nav: true,
+				namespace: 'centered-btns',
+			});
+		});
+	</script>
+<script type='text/javascript' src='{APP_PATH}/statics/4/js/wp-embed.min.js'></script>
+
+</body>
+</html>

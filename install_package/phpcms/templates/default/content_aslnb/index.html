@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}" />
+    <meta name="description" content="{$SEO['description']}" />
+    {template "content","meta"}
+</head>
+<body class="home blog el-boxed">
+{template "content","header"}
+
+<div id="wrap">
+  <div class="wrap container">
+    <div class="main">
+      <div class="slider-wrap clearfix">
+        <div class="main-slider wpcom-slider swiper-container pull-left">
+          <ul class="swiper-wrapper">
+
+              {pc:content  action="position" posid="1"  order="listorder DESC" thumb="1" num="5"}
+              {loop $data $r}
+              <li class="swiper-slide">
+                  <a href="{$r['url']}" target="_blank"><img src="{thumb($r['thumb'])}" alt="{$r['title']}"></a>
+                  <h3 class="slide-title"><a href="{$r['url']}" target="_blank">{$r['title']}</a></h3>
+              </li>
+              {/loop}
+              {/pc}
+
+          </ul>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination"></div>
+          <!-- Add Navigation -->
+          <div class="swiper-button-prev swiper-button-white"></div>
+          <div class="swiper-button-next swiper-button-white"></div>
+        </div>
+
+        <ul class="feature-post pull-right">
+            {pc:content action="position" posid="12" order="listorder DESC" thumb="1" num="3"}
+            {loop $data $r}
+            <li>
+                <a href="{$r['url']}" target="_blank">
+                <img class="j-lazy" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" alt="{$r['title']}">
+                </a>
+                <span>{$r['title']}</span>
+            </li>
+            {/loop}
+            {/pc}
+        </ul>
+
+      </div>
+
+      <div class="sec-panel main-list">
+        <div class="sec-panel-head">
+          <ul class="list tabs j-newslist">
+            <li class="tab active"><a data-id="0" href="javascript:;">最新文章</a></li>
+              {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+              {loop $data $r}
+              <li class="tab"><a href="javascript:;">{$r[catname]}</a></li>
+              {/loop}
+              {/pc}
+          </ul>
+        </div>
+
+        <ul class="post-loop post-loop-default tab-wrap clearfix active">
+            {pc:get sql="SELECT * FROM `v9_news` a left join `v9_news_data` b on a.id=b.id ORDER BY inputtime DESC" num="10" cache="3600" return="data"}
+            {php $categorys = getcache('category_content_'.$siteid,'commons');}
+            {loop $data $r}
+            {php $category = $categorys[$r[catid]];}
+            {php $modelid = $category['modelid'];}
+            {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+            {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+            <li class="item">
+                <div class="item-img">
+                    <a class="item-img-inner" href="{$r['url']}" title="{$r['title']}" target="_blank">
+                    <img class="j-lazy" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" width="480" height="300" alt="{$r['title']}">
+                    </a>
+                    <a class="item-category" href="{$CATEGORYS[$r[catid]][url]}" target="_blank">{$CATEGORYS[$r[catid]][catname]}</a> </div>
+                <div class="item-content">
+                    <h2 class="item-title">
+                        <a href="{$r['url']}" title="{$r['title']}" target="_blank"> {$r['title']} </a>
+                    </h2>
+                    <div class="item-excerpt">
+                        <p>&nbsp;  {$r['description']}...</p>
+                    </div>
+                    <div class="item-meta">
+                        <span class="item-meta-li date"></span>
+                        <span class="item-meta-li views" title="{$r['title']}">
+                            <i class="fa fa-eye"></i> {$views}
+                        </span>
+                    </div>
+                </div>
+            </li>
+            {/loop}
+            {/pc}
+        </ul>
+
+          {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC" return="cat"}
+          {loop $cat $t}
+          <ul class="post-loop post-loop-default tab-wrap clearfix">
+              {pc:get sql="SELECT * FROM `v9_news` a left join `v9_news_data` b on a.id=b.id where a.catid=$t[catid] ORDER BY inputtime DESC" num="10" return="data"}
+              {php $categorys = getcache('category_content_'.$siteid,'commons');}
+              {loop $data $r}
+              {php $category = $categorys[$r[catid]];}
+              {php $modelid = $category['modelid'];}
+              {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+              {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+              <li class="item">
+                  <div class="item-img">
+                      <a class="item-img-inner" href="{$r['url']}" title="{$r['title']}" target="_blank">
+                          <img class="j-lazy" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" width="480" height="300" alt="{$r['title']}">
+                      </a>
+                      <a class="item-category" href="{$CATEGORYS[$r[catid]][url]}" target="_blank">{$CATEGORYS[$r[catid]][catname]}</a> </div>
+                  <div class="item-content">
+                      <h2 class="item-title">
+                          <a href="{$r['url']}" title="{$r['title']}" target="_blank"> {$r['title']} </a>
+                      </h2>
+                      <div class="item-excerpt">
+                          <p>&nbsp;  {$r['description']}...</p>
+                      </div>
+                      <div class="item-meta">
+                          <span class="item-meta-li date"></span>
+                          <span class="item-meta-li views" title="{$r['title']}">
+                            <i class="fa fa-eye"></i> {$views}
+                        </span>
+                      </div>
+                  </div>
+              </li>
+              {/loop}
+              {/pc}
+          </ul>
+          {/loop}
+          {/pc}
+
+      </div>
+    </div>
+
+  <aside class="sidebar">
+
+      <div id="wpcom-post-thumb-8" class="widget widget_post_thumb">
+          <h3 class="widget-title">推荐文章</h3>
+          <ul>
+              {pc:content action="position" posid="2" order="listorder DESC" num="3"}
+              {loop $data $r}
+              <li class="item">
+                  <div class="item-img"> <a class="item-img-inner" href="{$r['url']}" title="{$r['title']}"> <img class="j-lazy" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" width="480" height="300" alt="{$r['title']}"> </a> </div>
+                  <div class="item-content">
+                      <p class="item-title"><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></p>
+                      <p class="item-date">{date('Y-m-d',$r[inputtime])}</p>
+                  </div>
+              </li>
+              {/loop}
+              {/pc}
+          </ul>
+      </div>
+
+      <div id="wpcom-post-thumb-2" class="widget widget_post_thumb">
+        <h3 class="widget-title">热门文章</h3>
+        <ul>
+            {pc:get sql="SELECT * FROM `v9_news` a,`v9_hits` p WHERE a.catid=p.catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" num="3"}
+            {loop $data $r}
+            <li class="item">
+                <div class="item-img"> <a class="item-img-inner" href="{$r['url']}" title="{$r['title']}"> <img class="j-lazy" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" width="480" height="300" alt="{$r['title']}"> </a> </div>
+                <div class="item-content">
+                    <p class="item-title"><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></p>
+                    <p class="item-date">{date('Y-m-d',$r[inputtime])}</p>
+                </div>
+            </li>
+            {/loop}
+            {/pc}
+        </ul>
+      </div>
+
+      <div id="wpcom-post-thumb-3" class="widget widget_post_thumb">
+        <h3 class="widget-title">随机文章</h3>
+        <ul>
+            {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY rand()" num="3" cache="3600"}
+            {loop $data $r}
+            <li class="item">
+                <div class="item-img"> <a class="item-img-inner" href="{$r['url']}" title="{$r['title']}"> <img class="j-lazy" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" width="480" height="300" alt="{$r['title']}"> </a> </div>
+                <div class="item-content">
+                    <p class="item-title"><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></p>
+                    <p class="item-date">{date('Y-m-d',$r[inputtime])}</p>
+                </div>
+            </li>
+            {/loop}
+            {/pc}
+        </ul>
+      </div>
+
+    </aside>
+  </div>
+
+  <div class="container hidden-xs j-partner">
+    <div class="sec-panel">
+      <div class="sec-panel-head">
+        <h2><span>友情链接</span></h2>
+      </div>
+      <div class="sec-panel-body">
+        <div class="list list-links">
+            {pc:link  action="type_list" siteid="$siteid" linktype="1" order="listorder DESC" return="pic_link"}
+            {loop $pic_link $v}
+            <a href='{$v[url]}' target='_blank'>{$v[name]}</a>
+            {/loop}
+            {/pc}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{template "content","footer"}
+</body>
+</html>

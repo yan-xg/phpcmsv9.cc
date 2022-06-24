@@ -1,0 +1,33 @@
+/* 娌冲崡鏍煎睍缃戠粶绉戞妧鏈夐檺鍏徃 */
+/* 绮惧搧涓庡師鍒涚粐姊︽ā鏉挎彁渚涘晢锛屼竴绔欏紡寤虹珯 */
+/* 涓昏惀涓氬姟锛氬揩閫熷缓绔欍€佸揩鎺掋€侀珮鏉冮噸鍩熷悕銆佹捣澶栨湇鍔″櫒 */
+/* 鏍煎睍缃戠粶锛歐ww.91084.Com */
+/* 涓绘満/鏈嶅姟鍣細Www.zhaodede.Com */
+/* QQ锛�6364544  */
+
+@media screen and (max-width: 890px){
+    .share-right {float: left;margin-left: 20px;}
+    }
+    
+    @media screen and (max-width: 600px){
+    .share-right {
+    float: left;
+    margin-left: 0;
+    }
+    .bdshare a{
+        width: 90px;  
+        height: 28px;
+        font-size: 1.2rem;  
+        font-size: 12px;
+        line-height: 28px;
+    
+    }
+    }
+    
+    .bdsharebuttonbox a, .bdsharebuttonbox .bds_more {
+      float: left;
+    
+      background-image: url(../img/share/icons_0_16.png?v=d754dcc0.png);
+    }
+    
+    .bdsharebuttonbox .bds_more {float:none}

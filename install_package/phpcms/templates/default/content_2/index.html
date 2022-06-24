@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}" />
+    <meta name="description" content="{$SEO['description']}" />
+    {template "content","meta"}
+</head>
+<body>
+{template "content","header"}
+<p class="index-breadcrumb"></p>
+
+<div id="content" class="content container"> 
+  <!-- 广告位AD1  -->
+  <div class="clearfix">
+    <div id="mainbox" class="fl">
+      <div class="swiper-container br">
+          <ul class="swiper-wrapper">
+            {pc:content  action="position" posid="1"  order="listorder DESC" thumb="1" num="5"}
+            {loop $data $r}
+            <li class="swiper-slide">
+                <a class="link" href="{$r['url']}" title="{$r['title']}">
+                    <p class="p ellipsis">{$r['title']}</p>
+                    <img src="{thumb($r['thumb'])}" alt="{$r['title']}"/>
+                    <i class="mask"></i>
+                </a>
+            </li>
+            {/loop}
+            {/pc}
+          </ul>
+          <p class="swiper-pagination"></p>
+          <i class="hidden-sm-md-lg swiper-button-next iconfont icon-right"></i>
+          <i class="hidden-sm-md-lg swiper-button-prev iconfont icon-left"></i>
+      </div>
+
+      <!-- 推荐模块A  --> 
+      <div class="recommend-a sb br mb">
+        <p class="c-title"><span>头条推荐</span></p>
+        <div class="wrap clearfix">
+            {pc:content action="position" posid="12" order="listorder DESC" thumb="1" num="6"}
+            {php $categorys = getcache('category_content_'.$siteid,'commons');}
+            {loop $data $r}
+            {php $category = $categorys[$r[catid]];}
+            {php $modelid = $category['modelid'];}
+            {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+            {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+            <article class="item fl">
+                <a class="thumbnail" href="{$r['url']}" title="{$r['title']}"><img class="img-cover br" src="{thumb($r['thumb'])}" alt="{$r['title']}" title="{$r['title']}"></a>
+                <a class="category brightness transition br" href="{$CATEGORYS[$r[catid]][url]}">{$CATEGORYS[$r[catid]][catname]}</a>
+                <h2 class="title multi-ellipsis"><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></h2>
+                <div class="num clearfix">
+                    <span class="view ellipsis fl"><i class="iconfont icon-view"></i>{$views}</span>
+                    <time class=" time ellipsis fr" datetime="{date('Y-m-d',$r[inputtime])}" title="{date('Y-m-d',$r[inputtime])}">{date('Y-m-d',$r[inputtime])}</time>
+                </div>
+            </article>
+            {/loop}
+            {/pc}
+        </div>
+      </div>
+
+      <!-- 推荐模块B  --> 
+      <div class="recommend-b sb br mb">
+        <p class="c-title"><span>热门推荐</span></p>
+        <div class="wrap clearfix">
+            {pc:get sql="SELECT * FROM `v9_news` a,`v9_hits` p WHERE a.catid=p.catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" num="6"}
+            {loop $data $r}
+            <article class="item fl">
+                <div class="clearfix">
+                    <div class="title-wrap clearfix">
+                        <a class="category transition ellipsis br fl" href="{$CATEGORYS[$r[catid]][url]}"> {$CATEGORYS[$r[catid]][catname]}</a>
+                        <h2 class="title ellipsis fl"> <a href="{$r['url']}" title="{$r['url']}">{$r['title']}</a> </h2>
+                    </div>
+                    <a class="thumbnail fl" href="{$r['url']}" title="{$r['url']}">
+                        <img class="img-cover br" src="{thumb($r['thumb'])}" alt="{$r['url']}" title="{$r['url']}"> </a>
+                    <div class="fr-wrap">
+                        <p class="intro br clearfix">  {str_cut($r['description'],100)}... </p>
+                    </div>
+                </div>
+            </article>
+            {/loop}
+            {/pc}
+        </div>
+      </div>
+
+      <!-- 推荐模块C  --> 
+      <!-- 最新文章 -->
+      <div class="new-post"> 
+        <!--<p class="c-title"><span>最新文章</span></p>-->
+          {pc:content action="lists" num="10" order="inputtime DESC" cache="3600"}
+          {php $categorys = getcache('category_content_'.$siteid,'commons');}
+          {loop $data $r}
+          {php $category = $categorys[$r[catid]];}
+          {php $modelid = $category['modelid'];}
+          {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+          {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+          <article class="article-list br mb sb clearfix">
+              <figure class="figure fl"> <a class="thumbnail" href="{$r['url']}" title="{$r['title']}"><img class="img-cover br" src="{thumb($r['thumb'])}" alt="{$r['title']}" title="{$r['title']}"> </a> </figure>
+              <div class="content">
+                  <h2 class="title ellipsis m-multi-ellipsis"><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></h2>
+                  <p class="intro hidden-sm">  {$r['description']}... </p>
+                  <p class="data clearfix">
+                      <span class="hidden-sm-md-lg author fl"><i class="iconfont icon-user">{$r['username']}</i></span>
+                      <time class="time fl" datetime="{date('Y-m-d',$r[inputtime])}" title="{date('Y-m-d',$r[inputtime])}"><i class="iconfont icon-time"></i>{date('Y-m-d',$r[inputtime])}</time>
+                      <span class="view fl"><i class="iconfont icon-view"></i>{$views}</span>
+                      <span class="hidden-sm-md-lg tag ellipsis fr"> <i class="iconfont icon-tag"></i>#<a href='{$CATEGORYS[$r[catid]][url]}'>{$CATEGORYS[$r[catid]][catname]}</a>  </span> </p>
+              </div>
+          </article>
+          {/loop}
+          {/pc}
+      </div>
+    </div>
+
+    <aside id="sidebar" class="hidden-sm-md-lg fr">
+      <div class="theiaStickySidebar">
+
+        <section id="aside_hot" class="widget widget_aside_hot sb br mb">
+          <p class="c-title mb"><span class="name">热门文章</span></p>
+          <ul class="widget-content aside_hot">
+              {pc:get sql="SELECT * FROM `v9_news` a,`v9_hits` p WHERE a.catid=p.catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" start="6"  num="10"}
+              {loop $data $r}
+              <li class="clearfix"><span class="list list-1">{$n}.</span><a href="{$r['url']}" title="{$r['title']}">{str_cut($r['title'],60)}</a></li>
+              {/loop}
+              {/pc}
+          </ul>
+        </section>
+
+        <section id="divTags" class="widget widget_tags sb br mb">
+          <p class="c-title mb"><span class="name">标签列表</span></p>
+          <ul class="widget-content divTags">
+              {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+              {loop $data $r}
+              <li><a href="{$r[url]}">{$r[catname]}<span class="tag-count"> ({$r[items]})</span></a></li>
+                  {pc:get sql="select * from v9_category where parentid =$r[catid] order by listorder ASC" return="data"}
+                  {loop $data $r2}
+                  <li><a href="{$r2[url]}">{$r2[catname]}<span class="tag-count"> ({$r2[items]})</span></a></li>
+                  {/loop}
+                  {/pc}
+              {/loop}
+              {/pc}
+          </ul>
+        </section>
+
+      </div>
+    </aside>
+  </div>
+
+
+  <!-- 友情链接 -->
+  <div class="flink container sb br mb">
+    <p class="c-title mb">友情链接<span class="rule">申请要求：同属互联网资讯类网站，并内容充实，无作弊现象。</span></p>
+    <ul id="flink" class="f-list clearfix">
+        {pc:link  action="type_list" siteid="$siteid" linktype="1" order="listorder DESC" return="pic_link"}
+        {loop $pic_link $v}
+        <li><a href='{$v[url]}' target='_blank'>{$v[name]}</a> </li>
+        {/loop}
+        {/pc}
+    </ul>
+  </div>
+</div>
+
+{template "content","footer"}
+
+<!--初始化Swiper-->
+<script>
+    var swiper = new Swiper('.swiper-container', {
+    pagination: '.swiper-pagination',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    centeredSlides: true,
+    autoplay: 3500,
+    slidesPerView: 1,
+    paginationClickable: true,
+    autoplayDisableOnInteraction: false,
+    spaceBetween: 0,
+    loop: true
+});
+</script>
+</body>
+</html>

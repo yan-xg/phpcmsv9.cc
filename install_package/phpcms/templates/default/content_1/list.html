@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{$catname}-{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}">
+    <meta name="description" content="{$SEO['description']}">
+    {template "content","meta"}
+</head>
+<body>
+{template "content","header"}
+
+<div class="inner container">
+  <main class="main">
+    <div class="content">
+      <div class="breadcrumb"> <span> <i class="icon-home"></i><a href="{siteurl($siteid)}">主页</a> > {catpos($catid)}</span> </div>
+        {pc:content action="lists" catid="$catid" num="10" order="id DESC" page="$page"}
+        {loop $data $r}
+        <section class="section wow fadeIn">
+            <div class="thumbnail"> <a href="{$r[url]}" title="{$r[title]}" target="_blank"><img src="{thumb($r['thumb'])}" alt="{$r[title]}"/></a> </div>
+            <h2><a href="{$r[url]}" title="{$r[title]}" target="_blank">{$r[title]}</a></h2>
+            <div class="postmeta">
+                <span><i class="icon-user-circle-o"></i> {$r['username']}</span>
+                <span><i class="icon-calendar"></i><time>{date('Y-m-d',$r[inputtime])}</time></span>
+<!--                <span><i class="icon-eye"></i> 1</span>-->
+            </div>
+            <div class="excerpt"><p> {$r['description']}...</p></div>
+        </section>
+        {/loop}
+        <div class="pagess">{$li_pages}</div>
+        {/pc}
+    </div>
+  </main>
+
+  <aside class="sidebar bar1">
+    <section class="widget theme-widget wow fadeInUp">
+      <div class="section-title">
+        <h3>最新文章</h3>
+      </div>
+      <ul>
+          {pc:content action="lists" catid="$catid" num="5" order="inputtime DESC"}
+          {loop $data $r}
+          <li>
+              <div class="thumbnail"> <a href="{$r[url]}" title="{$r[title]}" target="_blank">
+                  <img src="{thumb($r['thumb'])}"/></a> </div>
+              <p><a href="{$r[url]}" title="{$r[title]}" target="_blank">{$r[title]}...</a></p>
+          </li>
+          {/loop}
+          {/pc}
+      </ul>
+    </section>
+  </aside>
+</div>
+
+{template "content","footer"}
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<script>prettyPrint();</script>
+</body>
+</html>

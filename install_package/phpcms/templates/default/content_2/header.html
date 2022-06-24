@@ -1,0 +1,38 @@
+<header class="header sb">
+    <div class="h-wrap container clearfix">
+        <h1 class="logo-area fl"> <a href="/" title="{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}"> <img class="img" src="{APP_PATH}/statics/2/images/logo.png" alt="{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}" title="{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}"/> </a> </h1>
+        <div class="m-nav-btn"><i class="iconfont icon-category"></i></div>
+        <nav class="responsive-nav">
+            <div class="pc-nav m-nav fl">
+                <ul class="nav-ul">
+                    <li><a class="{if $catid==''} active {/if}" href="/">网站首页</a></li>
+                    {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+                    {loop $data $r}
+                        <li><a class="{if $catid==$r['catid']} active {/if}" href="{$r[url]}">{$r[catname]}</a>
+                        {pc:get sql="select * from v9_category where parentid =$r[catid] order by listorder ASC" return="data"}
+                        {if count($data) > 0}
+                        <span class="toggle-btn"><i class="iconfont icon-down"></i></span>
+                        <ul class="dropdown-nav nav-sb br sub-nav animated-fast fadeInUpMenu clearfix">
+                        {/if}
+                        {loop $data $r2}
+                            <li><a href="{$r2[url]}">{$r2[catname]}</a></li>
+                        {/loop}
+                        {if count($data) > 0} </ul> {/if}
+                        {/pc}
+                    {/loop}
+                    {/pc}
+                </ul>
+            </div>
+        </nav>
+        <!--
+        <span id="search-button" class="search-button fr"><i class="iconfont icon-search"></i></span>
+        <div id="search-area" class="container hidden br sb animated-fast fadeInUpMenu">
+            <form  name="formsearch" class="searchform clearfix" action="/plus/search.php">
+                <input type="hidden" name="kwtype" value="0" />
+                <input class="s-input br fl" type="text" name="q" placeholder="请输入关键词...">
+                <button class="s-button fr br transition brightness" type="submit">搜 索</button>
+            </form>
+        </div>
+        -->
+    </div>
+</header>

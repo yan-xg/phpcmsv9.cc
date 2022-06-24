@@ -1,0 +1,2 @@
+ALTER TABLE `v9_site`
+ADD COLUMN `beian`  char(50) CHARACTER SET gbk COLLATE gbk_chinese_ci NOT NULL AFTER `description`;

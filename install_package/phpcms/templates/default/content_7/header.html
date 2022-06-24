@@ -1,0 +1,18 @@
+<div id="mainav">
+    <div class="navbox">
+        <div class="wrap">
+            <div class="mlogo"> <a href="/" title="{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}"> <img src="{APP_PATH}/statics/7/images/logo.png" alt="{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}" /> </a> </div>
+            <div class="topmenu">
+                <ul class="bar">
+                    <li class="item common"> <a href="/" >网站首页</a> <i class="dot"></i> </li>
+                    {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+                    {loop $data $r}
+                    <li class="item common"> <a href="{$r[url]}" >{$r[catname]}</a> <i class="dot"></i> </li>
+                    {/loop}
+                    {/pc}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <i class="fa fa-navicon"></i>
+</div>

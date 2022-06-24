@@ -1,0 +1,39 @@
+<div class="top">
+    <span href="#" class="totop"></span>
+    <div class="topmenu">
+        <ul id="menu-top" class="wrap">
+            <li><a>本站有提供技术支持 </a></li>
+        </ul>
+    </div>
+
+    <div class="wrap page-header">
+        <h1 style="margin-top: 20px;">
+            <a href="/" title="{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}">
+                <img src="{APP_PATH}/statics/8/images/logo.png" width="" height="" border="0" alt="">
+            </a>
+        </h1>
+    </div>
+    <div class="nav">
+        <div class="wrap zwrap">
+            <div class="navbar-collapse">
+                <ul>
+                    <li class="menu-item {if $catid==''} current_page_item {/if}"><a href="/">首页</a></li>
+                    {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+                    {loop $data $r}
+                    <li class="menu-item {if $catid==$r['catid']} current_page_item {/if}"><a href="{$r[url]}">{$r[catname]}</a>
+                    {/loop}
+                    {/pc}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="notic">
+        <div class="wrap subnotic"><i class="fa fa-bullhorn"></i>
+            {pc:content action="position" posid="12" order="listorder DESC" thumb="1" num="1"}
+            {loop $data $r}
+            <a href="{$r['url']}">{$r['title']}</a>
+            {/loop}
+            {/pc}
+        </div>
+    </div>
+</div>

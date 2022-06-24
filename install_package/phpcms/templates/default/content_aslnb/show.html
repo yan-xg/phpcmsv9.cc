@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8">
+    <title>{$title}-{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}">
+    <meta name="description" content="{$SEO['description']}">
+    {template "content","meta"}
+</head>
+<body class="post-template-default single single-post postid-185570 single-format-standard el-boxed">
+{template "content","header"}
+
+<div id="wrap">
+  <div class="wrap container">
+    <div class="main">
+      <ol class="breadcrumb entry-breadcrumb">
+        <li class="home" property="itemListElement" typeof="ListItem"><i class="fa fa-map-marker"></i>
+          <meta property="position" content="1">
+        </li>
+        <li>您现在的位置是：<a href="{siteurl($siteid)}">主页</a> > {catpos($catid)} 文章正文</li>
+      </ol>
+
+      <article class="hentry">
+        <div class="entry">
+          <div class="entry-head">
+            <h1 class="entry-title">{$title}</h1>
+            <div class="entry-info">
+                <span class="dot">•</span>
+                <span>更新时间： {$updatetime}</span>
+                <span class="dot">•</span>
+                <span>阅读 <span id="hits"></span><script language="JavaScript" src="{APP_PATH}api.php?op=count&id={$id}&modelid={$modelid}"></script></span>
+            </div>
+          </div>
+          <div class="entry-content clearfix">
+              {$content}
+              <div class="entry-copyright">
+                  <p><b>特别声明：</b>本文来源于网络，请核实广告和内容真实性，谨慎使用，本站和本人不承担由此产生的一切法律后果！</p>
+              </div>
+          </div>
+          <div class="entry-footer">
+            <div class="entry-tag">  <a href='{$CATEGORYS[$catid][url]}'>{$CATEGORYS[$catid][catname]}</a>  </div>
+
+            <div class="entry-page">
+              <div class="entry-page-prev j-lazy">
+                  <a href="{$previous_page[url]}"><span>{$previous_page[title]} </span></a>
+                  <div class="entry-page-info">
+                      <span class="pull-left">&laquo; 上一篇</span> <span class="pull-right"> </span>
+                  </div>
+              </div>
+			  <div class="entry-page-next j-lazy">
+                  <a href="{$next_page[url]}"><span>{$next_page[title]}</span></a>
+                  <div class="entry-page-info">
+                      <span class="pull-right">下一篇  &raquo;</span> <span class="pull-left"> </span>
+                  </div>
+              </div>
+            </div>
+
+            <h3 class="entry-related-title">相关推荐</h3>
+            <ul class="entry-related clearfix">
+                {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="10" cache="3600"}
+                {if $data}
+                {loop $data $r}
+                <li><a href="{$r[url]}" title="{$r[title]}">{$r[title]}</a></li>
+                {/loop}
+                {/if}
+                {/pc}
+            </ul>
+
+          </div>
+        </div>
+      </article>
+    </div>
+
+      <aside class="sidebar">
+
+          <div id="wpcom-post-thumb-8" class="widget widget_post_thumb">
+              <h3 class="widget-title">推荐文章</h3>
+              <ul>
+                  {pc:content action="position" posid="2" order="listorder DESC" num="3"}
+                  {loop $data $r}
+                  <li class="item">
+                      <div class="item-img"> <a class="item-img-inner" href="{$r['url']}" title="{$r['title']}"> <img class="j-lazy" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" width="480" height="300" alt="{$r['title']}"> </a> </div>
+                      <div class="item-content">
+                          <p class="item-title"><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></p>
+                          <p class="item-date">{date('Y-m-d',$r[inputtime])}</p>
+                      </div>
+                  </li>
+                  {/loop}
+                  {/pc}
+              </ul>
+          </div>
+
+          <div id="wpcom-post-thumb-2" class="widget widget_post_thumb">
+              <h3 class="widget-title">热门文章</h3>
+              <ul>
+                  {pc:get sql="SELECT * FROM `v9_news` a left join `v9_hits` p on a.catid=p.catid WHERE a.catid=$catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" num="3"}
+                  {loop $data $r}
+                  <li class="item">
+                      <div class="item-img"> <a class="item-img-inner" href="{$r['url']}" title="{$r['title']}"> <img class="j-lazy" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" width="480" height="300" alt="{$r['title']}"> </a> </div>
+                      <div class="item-content">
+                          <p class="item-title"><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></p>
+                          <p class="item-date">{date('Y-m-d',$r[inputtime])}</p>
+                      </div>
+                  </li>
+                  {/loop}
+                  {/pc}
+              </ul>
+          </div>
+
+          <div id="wpcom-post-thumb-3" class="widget widget_post_thumb">
+              <h3 class="widget-title">随机文章</h3>
+              <ul>
+                  {pc:get sql="SELECT * FROM v9_news a left join v9_news_data b on a.id=b.id WHERE a.catid=$catid ORDER BY rand()" num="3" cache="3600"}
+                  {loop $data $r}
+                  <li class="item">
+                      <div class="item-img"> <a class="item-img-inner" href="{$r['url']}" title="{$r['title']}"> <img class="j-lazy" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" width="480" height="300" alt="{$r['title']}"> </a> </div>
+                      <div class="item-content">
+                          <p class="item-title"><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></p>
+                          <p class="item-date">{date('Y-m-d',$r[inputtime])}</p>
+                      </div>
+                  </li>
+                  {/loop}
+                  {/pc}
+              </ul>
+          </div>
+
+      </aside>
+ </div>
+</div>
+
+{template "content","footer"}
+</body>
+</html>

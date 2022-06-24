@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{$catname}-{$SEO['site_title']}</title>
+  <meta name="keywords" content="{$SEO['keyword']}">
+  <meta name="description" content="{$SEO['description']}">
+  {template "content","meta"}
+</head>
+<body>
+{template "content","header"}
+
+<div class="wrap">
+  <div id="content">
+    <div id="contentleft">
+      <div class="itbox pagenow"> <i class="fa fa-hand-o-right"></i><a href="{siteurl($siteid)}">主页</a> > {catpos($catid)}</div>
+      <script src="{APP_PATH}/statics/7/js/xMarquee.js" type="text/javascript"></script>
+      <ul class="loglist">
+        {pc:content action="lists" catid="$catid" num="10" order="id DESC" page="$page"}
+        {loop $data $r}
+        <li class="con">
+          <div class="des"> <a href="{$r['url']}" target="_blank" class="h2">{$r['title']}</a> <a href="{$r['url']}" target="_blank" class="pic"> <img src="{APP_PATH}/statics/7/images/nopic.gif" data-original="{thumb($r['thumb'])}" title="{$r['title']}" /> </a>
+            <p class="text">{$r['description']}...</p>
+          </div>
+        </li>
+        {/loop}
+        <div id="pagenavi">{$pages}</div>
+        {/pc}
+      </ul>
+    </div>
+    <!-- end #contentleft-->
+    <ul id="sidebar">
+      <li id="blogsort">
+        <h3 class="mcolor"><i class="fa fa-folder-open-o"></i><span>分类导航</span></h3>
+        <ul>
+          {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+          {loop $data $r}
+          <li> <a href="{$r[url]}">{$r[catname]}<i>({$r[items]})</i></a> </li>
+          {pc:get sql="select * from v9_category where parentid =$r[catid] order by listorder ASC" return="data"}
+          {loop $data $r2}
+          <li> <a href="{$r[url]}">{$r[catname]}<i>({$r[items]})</i></a> </li>
+          {/loop}
+          {/pc}
+          {/loop}
+          {/pc}
+        </ul>
+      </li>
+      <li class="rlist1">
+        <h3><span>热门文章</span></h3>
+        <ul id="hotlog">
+          {pc:get sql="SELECT * FROM `v9_news` a left join `v9_hits` p on a.catid=p.catid WHERE a.catid=$catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" num="10"}
+          {loop $data $r}
+          <li><i class='mcolor' >{$n}</i><a href="{$r['url']}" title="{$r['title']}">{str_cut($r['title'],30)}...</a></li>
+          {/loop}
+          {/pc}
+        </ul>
+      </li>
+      <li class="rlist1">
+        <h3><span>随机文章</span></h3>
+        <ul id="randlog">
+          <div id='tagcbed56ad09f4bacad68031b3ee31a837'>
+            {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY rand()" num="10" cache="3600"}
+            {loop $data $r}
+            <li><a href="{$r['url']}" title="{$r['title']}">{str_cut($r['title'],36)}...</a></li>
+            {/loop}
+            {/pc}
+          </div>
+        </ul>
+      </li>
+    </ul>
+<!--end #siderbar--> 
+  </div>
+  <!--end #content--> 
+</div>
+<!--end wrap-->
+<div id="footerbar">
+  {template "content","footer"}
+</div>
+<!--end #footerbar-->
+<div id="backtop"><span class="fa fa-space-shuttle fa-rotate-270"></span></div>
+
+</body>
+</html>

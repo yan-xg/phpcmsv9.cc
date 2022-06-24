@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>{$title}-{$SEO['site_title']}</title>
+  <meta name="keywords" content="{$SEO['keyword']}">
+  <meta name="description" content="{$SEO['description']}">
+  {template "content","meta"}
+</head>
+<body>
+
+{template "content","header"}
+
+<div class="wrap" >
+  <div class="main">
+    <div class="article">
+      <div class="map"><span> 当前位置：<a href="{siteurl($siteid)}">主页</a> > {catpos($catid)} 文章正文 </span> </div>
+      <div class="title">
+        <h1>{$title}</h1>
+        <div class="subtitle">
+          <span><i class="fa fa-clock-o"></i>{$updatetime}</span>
+          <span><i class="fa fa-eye"></i> <span id="hits"></span><script language="JavaScript" src="{APP_PATH}api.php?op=count&id={$id}&modelid={$modelid}"></script></span>
+          <span> <i class="fa fa-tags"></i> <a href="{$CATEGORYS[$catid][url]}" class="mcolor">{$CATEGORYS[$catid][catname]}</a></span>
+        </div>
+      </div>
+
+      <p>{$content}</p>
+
+      <div class="postcopyright">
+        <p><strong>版权保护: </strong>转载请保留链接: <a href="{$url}" title="{$title}"> {$url}</a></p>
+      </div>
+    </div>
+    <div class="clear"></div>
+    <div class="con_pretext">
+      <ul>
+        <li class="first">上一篇：<a href="{$previous_page[url]}">{$previous_page[title]}</a>  </li>
+        <li class="last">下一篇：<a href="{$next_page[url]}">{$next_page[title]}</a> </li>
+      </ul>
+    </div>
+    <div class="clear"></div>
+  </div>
+
+  <div class="sider">
+    <div class="right">
+
+      <div class="subblock">
+        <h3>推荐文章</h3>
+        <ul>
+          {pc:content action="position" posid="2" order="listorder DESC" num="6"}
+          {loop $data $r}
+          {if $n==1}
+          <li>
+            <div class="sideshow">
+              <a href="{$r['url']}" target="_ablank"  title="{$r['title']}">
+                <img width='80' height='60' src="{thumb($r['thumb'])}" class='icon wp-post-image' alt="{$r['title']}" title="{$r['title']}" />
+              </a>
+              <a href="{$r['url']}" target="_ablank"  title="{$r['title']}"> {$r['title']}</a>
+              <span class="datetime"> {date('Y-m-d',$r[inputtime])} </span>
+            </div>
+          </li>
+          {else}
+          <li>
+            <div class="sideshow"><a href="{$r['url']}" target="_ablank"  title="{$r['title']}">  </a>
+              <a href="{$r['url']}" target="_ablank"  title="{$r['title']}"> {$r['title']}</a>
+              <span class="datetime"> {date('Y-m-d',$r[inputtime])} </span>
+            </div>
+          </li>
+          {/if}
+          {/loop}
+          {/pc}
+        </ul>
+      </div>
+
+
+      <div class="subblock">
+        <h3>热门文章</h3>
+        <ul>
+          {pc:get sql="SELECT * FROM `v9_news` a left join `v9_hits` p on a.catid=p.catid WHERE a.catid=$catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" num="6"}
+          {loop $data $r}
+          {if $n==1}
+          <li>
+            <div class="sideshow">
+              <a href="{$r['url']}" target="_ablank"  title="{$r['title']}">
+                <img width='80' height='60' src="{thumb($r['thumb'])}" class='icon wp-post-image' alt="{$r['title']}" title="{$r['title']}" />
+              </a>
+              <a href="{$r['url']}" target="_ablank"  title="{$r['title']}"> {$r['title']}</a>
+              <span class="datetime"> {date('Y-m-d',$r[inputtime])} </span>
+            </div>
+          </li>
+          {else}
+          <li>
+            <div class="sideshow"><a href="{$r['url']}" target="_ablank"  title="{$r['title']}">  </a>
+              <a href="{$r['url']}" target="_ablank"  title="{$r['title']}"> {$r['title']}</a>
+              <span class="datetime"> {date('Y-m-d',$r[inputtime])} </span>
+            </div>
+          </li>
+          {/if}
+          {/loop}
+          {/pc}
+
+        </ul>
+      </div>
+
+      <div class="subblock linkcat">
+        <h3>友情链接</h3>
+        <ul>
+          {pc:link  action="type_list" siteid="$siteid" linktype="1" order="listorder DESC" return="pic_link"}
+          {loop $pic_link $v}
+          <li><a href='{$v[url]}' target='_blank'>{$v[name]}</a> </li>
+          {/loop}
+          {/pc}
+        </ul>
+      </div>
+    </div>
+  </div>
+ </div>
+
+<div class="clear"></div>
+{template "content","footer"}
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>{$title}-{$SEO['site_title']}</title>
+  <meta name="keywords" content="{$SEO['keyword']}">
+  <meta name="description" content="{$SEO['description']}">
+  {template "content","meta"}
+</head>
+<body class="single">
+{template "content","header"}
+
+<section class="container">
+  <div class="content-wrap" style="padding-top: 15px;">
+    <div class="content">
+      <header class="article-header">
+        <h1 class="article-title">{$title}</h1>
+      </header>
+      <article class="article-content"><div class="ad-pc ad-site">&nbsp;</div>
+        {$content}
+      </article>
+
+      <div class="relates">
+        <div class="title" id="comments">
+          <h4>相关阅读</h4>
+        </div>
+        <ul>
+          {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="5" cache="3600"}
+          {if $data}
+          {php $categorys = getcache('category_content_'.$siteid,'commons');}
+          {loop $data $r}
+          {php $category = $categorys[$r[catid]];}
+          {php $modelid = $category['modelid'];}
+          {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+          {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+          <li class="tuijian554"><a href="{$r[url]}" title="{$r[title]}">{$r[title]}</a> <span class="sijian554">{$views}人看过</span></li>
+          {/loop}
+          {/if}
+          {/pc}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <aside class="sidebar pc">
+    <dl class="function" id="divPrevious">
+      <dt class="function_t">热门文章</dt>
+      <dd class="function_c">
+        <ul>
+          {pc:get sql="SELECT * FROM `v9_news` a left join `v9_hits` p on a.catid=p.catid WHERE a.catid=$catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC"  num="10"}
+          {loop $data $r}
+          <li><a href="{$r['url']}">{$r['title']}</a></li>
+          {/loop}
+          {/pc}
+        </ul>
+      </dd>
+    </dl>
+    <dl class="function">
+      <dt class="function_t">文章信息</dt>
+      <dd class="function_c">
+        <ul style="font-size: 12px;">
+          <li class="breadcrumb" ><a href="{siteurl($siteid)}">主页</a> > {catpos($catid)} </li>
+          <li>时间：{$updatetime}</li>
+          <li>作者：{$username}</li>
+          <li>阅读：<span id="hits"></span>次<script language="JavaScript" src="{APP_PATH}api.php?op=count&id={$id}&modelid={$modelid}"></script></li>
+          <li>上一篇：<a href="{$previous_page[url]}">{$previous_page[title]}</a> </li>
+          <li>下一篇：<a href="{$next_page[url]}">{$next_page[title]}</a> </li>
+        </ul>
+      </dd>
+    </dl>
+  </aside>
+</section>
+{template "content","footer"}
+
+</body>
+</html>
