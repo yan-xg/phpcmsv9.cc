@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}" />
+    <meta name="description" content="{$SEO['description']}" />
+    {template "wap","meta"}
+</head>
+<body>
+{template "wap","header"}
+
+<div class="inner container">
+  <main class="main">
+    <div class="focus wow fadeIn">
+      <div class="flexslider">
+        <ul class="slides">
+            {pc:content  action="position" posid="1"  order="listorder DESC" thumb="1" num="3"}
+            {loop $data $r}
+            <li>
+                <a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">
+                    <img src="{thumb($r['thumb'])}" alt="{$r['title']}"/>
+                    <p class="flex-caption">{$r['title']}</p>
+                </a>
+            </li>
+            {/loop}
+            {/pc}
+        </ul>
+      </div>
+    </div>
+    <section class="top wow fadeIn">
+      <h3>头条推荐</h3>
+      <ul>
+          {pc:content action="position" posid="2" order="listorder DESC" num="3"}
+          {loop $data $r}
+          <li>
+              <h4><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{$r['title']}</a></h4>
+              <p>{$r['description']}...</p>
+          </li>
+          {/loop}
+          {/pc}
+      </ul>
+    </section>
+    <div class="clear"></div>
+    <section class="hots wow fadeInUp">
+      <div class="section-title">
+        <h3>人气推荐</h3>
+      </div>
+      <ul>
+          {pc:content action="position" posid="12" order="listorder DESC" thumb="1" num="4"}
+          {loop $data $r}
+          <li>
+              <div class="thumbnail"> <a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">
+                  <img src="{thumb($r['thumb'])}" alt="{$r['title']}"/></a>
+              </div>
+              <h4><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{$r['title']}</a></h4>
+              <p> {$r['description']}...</p>
+          </li>
+          {/loop}
+          {/pc}
+      </ul>
+    </section>
+    <div class="mainad wow fadeIn"> </div>
+    <div class="content">
+      <div class="section-title">
+        <h3>最新资讯</h3>
+      </div>
+        {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="10"}
+        {loop $data $r}
+          <section class="section wow fadeIn">
+            <div class="thumbnail">
+                <a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}" target="_blank"><img src="{thumb($r['thumb'])}" alt="{$r['title']}"/></a>
+            </div>
+            <h2><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}" target="_blank">{$r['title']}</a></h2>
+            <div class="postmeta">
+                <span><i class="icon-user-circle-o"></i> <a>{$r['username']}</a></span>
+                <span><i class="icon-calendar"></i> <time>{date('Y-m-d',$r[inputtime])}</time></span>
+<!--                <span><i class="icon-eye"></i> {$r['hist']}</span>-->
+            </div>
+            <div class="excerpt">
+              <p> {$r['description']}...</p>
+            </div>
+          </section>
+        {/loop}
+        {/pc}
+    </div>
+  </main>
+  <aside class="sidebar">
+    <section class="widget wow fadeInUp">
+      <div class="section-title">
+        <h3>热门文章</h3>
+      </div>
+        <ul>
+            {pc:get sql="SELECT * FROM `v9_news` a,`v9_hits` p WHERE a.catid=p.catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" num="10"}
+            {loop $data $r}
+            <li> <i class="a{$n}">{$n}</i> <a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}" target="_blank">{$r['title']}</a> </li>
+            {/loop}
+            {/pc}
+      </ul>
+    </section>
+    <section class="widget theme-widget wow fadeInUp">
+      <div class="section-title">
+        <h3>随机文章</h3>
+      </div>
+      <ul>
+
+          {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY rand()" num="10" cache="3600"}
+          {loop $data $v}
+          {if $n==1}
+          <li class="list cur">
+          {else}
+          <li class="list">
+          {/if}
+              <div class="thumbnail"> <a href="{str_replace('www.','m.',$v['url'])}" title="{$v['title']}" target="_blank"><img src="{thumb($v['thumb'])}"/></a> </div>
+              <p><i class="icon-right-open-mini"></i> <a href="{str_replace('www.','m.',$v['url'])}" title="{$v['title']}" target="_blank">{$v['title']}</a></p>
+          </li>
+          {/loop}
+          {/pc}
+
+      </ul>
+    </section>
+
+    <!--
+    <div class="widget wow fadeInUp">
+      <div class="section-title">
+        <h3>关注我们</h3>
+      </div>
+      <div class="follow">
+        <p> <a href="https://weibo.com/gooxao" target="_blank"><img src="{M_APP_PATH}/statics/1/images/weibo.jpg" alt="关注微博"/></a> <img src="{M_APP_PATH}/statics/1/images/weixin.jpg" alt="扫描二维码关注"/> </p>
+        <p>关注官方微博微信有惊喜哦</p>
+      </div>
+    </div>
+    -->
+  </aside>
+</div>
+
+<div class="inner friendlinks wow fadeIn">
+  <div class="section-title"> 友情链接<span>申请要求：同属互联网资讯类网站，并内容充实，无作弊现象。</span> </div>
+  <ul>
+      {pc:link  action="type_list" siteid="$siteid" linktype="1" order="listorder DESC" return="pic_link"}
+      {loop $pic_link $v}
+      <li><a href='{str_replace('www.','m.',$v[url])}' target='_blank'>{$v[name]}</a> </li>
+      {/loop}
+      {/pc}
+  </ul>
+</div>
+
+{template "wap","footer"}
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<script>prettyPrint();</script>
+<style>
+    .copyrights{text-indent:-9999px;height:0;line-height:0;font-size:0;overflow:hidden;}
+</style>
+
+</body>
+</html>

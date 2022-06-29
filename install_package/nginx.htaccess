@@ -1,9 +1,3 @@
-##apache
-##RewriteRule ^([0-9A-Za-z_-]*)/$ /index.php?m=content&c=index&a=lists&catdir=$1
-##RewriteRule ^([0-9A-Za-z_-]*)/list_([0-9]+)_([0-9]+).html$ /index.php?m=content&c=index&a=lists&catdir=$1&catid=$2&page=$3
-##RewriteRule ^([0-9A-Za-z_-]*)/([0-9]+)/([0-9]+).html$ /index.php?m=content&c=index&a=show&catdir=$1&id=$3
-
-##nginx
 rewrite /([0-9A-Za-z_-]*)/$ /index.php?m=content&c=index&a=lists&catdir=$1 last;
 rewrite /([0-9A-Za-z_-]*)/list_([0-9]+)_([0-9]+).html$ /index.php?m=content&c=index&a=lists&catdir=$1&catid=$2&page=$3 last;
-rewrite /([0-9A-Za-z_-]*)/([0-9]+)/([0-9]+).html$ /index.php?m=content&c=index&a=show&catdir=$1&id=$3 last;
+rewrite /([0-9A-Za-z_-]*)/([0-9]+)_([0-9]+)_([0-9]+)/([0-9]+).html$ /index.php?m=content&c=index&a=show&catdir=$1&id=$5 last;

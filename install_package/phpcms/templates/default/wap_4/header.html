@@ -1,0 +1,30 @@
+<div id="sitetopbar">
+    <div class="site-logo">
+        <h1><a href="/" title="{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}"> <img src="{M_APP_PATH}/statics/4/images/logo.png" alt="{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}"> </a></h1>
+    </div>
+    <div class="site-logo-m">
+        <h1>
+            <a href="/" title="{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}">{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</a>
+        </h1>
+        <div class="title-m">{$CATEGORYS[$catid][catname]}</div>
+    </div>
+    <div role="navigation"  class="site-nav left-menu">
+        <h1 class="minimenu-text"><i class="icon-align-justify"></i></h1>
+        <ul id="menu-navigation" class="menu">
+            <li class="{if $catid==''} current-menu-item {/if}"><a href="/">首页</a></li>
+            {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+            {loop $data $r}
+            <li class="{if $catid==$r['catid']} current-menu-item {/if}"><a href="{str_replace('www.','m.',$r[url])}">{$r[catname]}</a></li>
+                {pc:get sql="select * from v9_category where parentid =$r[catid] order by listorder ASC" return="data2"}
+                {if count($data2) > 0} <ul> {/if}
+                {loop $data2 $r2}
+                    <li class="{if $catid==$r2['catid']} current-menu-item {/if}"><a href="{str_replace('www.','m.',$r2[url])}">{$r2[catname]}</a>
+                {/loop}
+                {if count($data2) > 0} </ul> {/if}
+                {/pc}
+            {/loop}
+            {/pc}
+        </ul>
+    </div>
+</div>
+<div><h1>111111111111{$catname}</h1></div>

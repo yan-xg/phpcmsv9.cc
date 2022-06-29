@@ -59,7 +59,7 @@
           <h3>最新文章</h3>
         </div>
         <div class="posts">
-            {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="10" cache="3600"}
+            {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="10"}
             {php $categorys = getcache('category_content_'.$siteid,'commons');}
             {loop $data $r}
             {php $category = $categorys[$r[catid]];}
@@ -172,45 +172,53 @@
     </div>
   </div>
     <div class="sidebar">
-    <div class="widget widget_suxingme_ad">
-      <div class="widget_ads"></div>
-    </div>
-    <div class="widget widget_suxingme_hotpost">
-      <div class="w_title">
-        <h3>热门文章</h3>
-      </div>
-        {pc:get sql="SELECT * FROM `v9_news` a,`v9_hits` p WHERE a.catid=p.catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" start="6"  num="3"}
-        {php $categorys = getcache('category_content_'.$siteid,'commons');}
-        {loop $data $r}
-        {php $category = $categorys[$r[catid]];}
-        {php $modelid = $category['modelid'];}
-        {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
-        {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
-        <li><a href="{$r['url']}" rel="bookmark" title="{$r['title']}">
-            <div class="overlay"></div>
-            <img src="{thumb($r['thumb'])}" alt="{$r['title']}" class="thumbnail" /><span><i class="icon-eye"></i>{$views}</span>
-            <p class="title">{$r['title']}</p>
-        </a></li>
-        {/loop}
-        {/pc}
-    </div>
+        <div class="widget widget_suxingme_hotpost">
+          <div class="w_title">
+            <h3>热门文章</h3>
+          </div>
+            <ul>
+            {pc:get sql="SELECT * FROM `v9_news` a,`v9_hits` p WHERE a.catid=p.catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" start="6"  num="10"}
+            {php $categorys = getcache('category_content_'.$siteid,'commons');}
+            {loop $data $r}
+            {php $category = $categorys[$r[catid]];}
+            {php $modelid = $category['modelid'];}
+            {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+            {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+            <li><a href="{$r['url']}" rel="bookmark" title="{$r['title']}">
+                <p class="title">{str_cut($r['title'],50)}</p>
+            </a></li>
+            {/loop}
+            {/pc}
+                </ul>
+        </div>
 
-    <div class="widget widget_suxingme_mostviews">
-      <div class="w_title">
-        <h3>随便看看</h3>
-      </div>
-        {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY rand()" num="3" cache="3600"}
-        {loop $data $v}
-        <li>
-            <a href="{$v['url']}" rel="bookmark" title="{$v['title']}">
-                <div class="overlay"></div>
-                <img src="{thumb($r['thumb'])}" alt="{$v['title']}" class="thumbnail" /><span></span>
-                <p class="title">{$v['title']}</p>
-            </a>
-        </li>
-        {/loop}
-        {/pc}
-    </div>
+        <div class="widget widget_suxingme_hotpost">
+            <div class="w_title">
+                <h3>最新文章</h3>
+            </div>
+            <ul>
+                {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="10" cache="3600"}
+                {loop $data $v}
+                <li><a href="{$v['url']}" rel="bookmark" title="{$v['title']}"><p class="title">{str_cut($v['title'],50)}</p></a></li>
+                {/loop}
+                {/pc}
+            </ul>
+        </div>
+
+        <div class="widget widget_suxingme_hotpost">
+          <div class="w_title">
+            <h3>随便看看</h3>
+          </div>
+            <ul>
+            {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY rand()" num="10" cache="3600"}
+            {loop $data $v}
+            <li><a href="{$v['url']}" rel="bookmark" title="{$v['title']}"><p class="title">{str_cut($v['title'],50)}</p></a></li>
+            {/loop}
+            {/pc}
+                </ul>
+        </div>
+
+
 
     <div class="widget suxingme_tag">
       <div class="w_title">

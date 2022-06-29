@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{$title}-{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}">
+    <meta name="description" content="{$SEO['description']}">
+    {template "wap","meta"}
+</head>
+<body>
+{template "wap","header"}
+
+<nav class="breadcrumb container"> <a href="{siteurl($siteid)}">主页</a> > {catpos($catid)} 文章正文 </nav>
+
+<div id="content" class="content container clearfix">
+  <div id="mainbox" class="article-box fl mb">
+    <article class="art-main sb br mb">
+      <div class="art-head mb">
+        <h1 class="art-title">{$title}</h1>
+        <div class="head-info">
+            <span class="author"><i class="iconfont icon-user"></i>{$username}</span>
+            <time class="time" datetime="{$updatetime}" title="{$updatetime}"> <i class="iconfont icon-time"></i>{$updatetime}</time>
+            <span class="view"><i class="iconfont icon-view"></i><span id="hits"></span><script language="JavaScript" src="{M_APP_PATH}api.php?op=count&id={$id}&modelid={$modelid}"></script></span>
+        </div>
+      </div>
+
+      <div class="art-content">
+          {$content}
+        <div class="art-copyright br mb">
+          <div><strong class="addr">本文地址：</strong> <a href="{$url}">{$url}</a></div>
+          <div><span class="copyright">版权声明：</span>本文发布于{$SEO['site_title']} 内容均来源于互联网 如有侵权联系删除</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 广告位AD5  -->
+    <div class="prev-next sb br mb clearfix">
+      <p class="post-prev fl ellipsis"> 上一篇：<a href="{$previous_page[url]}">{$previous_page[title]}</a>  </p>
+      <p class="post-next fr ellipsis"> 下一篇：<a href="{$next_page[url]}">{$next_page[title]}</a>  </p>
+    </div>
+
+    <div class="related-art sb br mb">
+      <p class="c-title"><span class="name">相关文章</span></p>
+      <ul class="ul clearfix">
+          {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="6" cache="3600"}
+          {if $data}
+          {loop $data $r}
+          <li class="related-item mt fl">
+              <a href="{str_replace('www.','m.',$r[url])}" title="{$r[title]}">
+                  <span class="span"><img class="img br img-cover" src="{thumb($r['thumb'])}" alt="{$r[title]}"></span>
+                  <p class="titile">{$r[title]}</p>
+            </a>
+          </li>
+          {/loop}
+          {/if}
+          {/pc}
+      </ul>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="hidden-sm-md-lg fr">
+    <div class="theiaStickySidebar">
+      <section id="aside_hot_comment" class="widget widget_aside_hot_comment sb br mb">
+        <p class="c-title mb"><span class="name">热门文章</span></p>
+        <ul class="widget-content aside_hot_comment">
+            {pc:get sql="SELECT * FROM `v9_news` a,`v9_hits` p WHERE a.catid=p.catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" num="10"}
+            {php $categorys = getcache('category_content_'.$siteid,'commons');}
+            {loop $data $r}
+            {php $category = $categorys[$r[catid]];}
+            {php $modelid = $category['modelid'];}
+            {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+            {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+            <li class="list clearfix">
+                <a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">
+                    <span class="img-wrap"><img src="{thumb($r['thumb'])}" alt="{$r['title']}" class="img-cover br random-img"></span>
+                <div class="new-text">
+                    <p class="title">{$r['title']}</p>
+                    <div class="info">
+                        <span class="time"><i class="iconfont icon-time"></i>{date('Y-m-d',$r[inputtime])}</span>
+                        <span class="comment"><i class="iconfont icon-view"></i>{$views}</span>
+                    </div>
+                </div>
+            </a></li>
+            {/loop}
+            {/pc}
+        </ul>
+      </section>
+      <section id="aside_hot_tag" class="widget widget_aside_hot_tag sb br mb">
+        <p class="c-title mb"><span class="name">热门标签</span></p>
+        <ul class="widget-content aside_hot_tag">
+            {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+            {loop $data $r}
+            <li><a href="{str_replace('www.','m.',$r[url])}">{$r[catname]}<span class="tag-count"> ({$r[items]})</span></a></li>
+            {pc:get sql="select * from v9_category where parentid =$r[catid] order by listorder ASC" return="data"}
+            {loop $data $r2}
+            <li><a href="{$r2[url]}">{$r2[catname]}<span class="tag-count"> ({$r2[items]})</span></a></li>
+            {/loop}
+            {/pc}
+            {/loop}
+            {/pc}
+        </ul>
+      </section>
+    </div>
+  </aside>
+</div>
+
+{template "wap","footer"}
+
+<!--初始化Swiper--> 
+
+</body>
+</html>

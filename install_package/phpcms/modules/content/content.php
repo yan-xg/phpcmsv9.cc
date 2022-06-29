@@ -837,6 +837,79 @@ class content extends admin {
 		$pages = $this->content_check_db->pages;
 		include $this->admin_tpl('content_checkall');
 	}
+
+    /**
+     * 最新更新
+     */
+    public function public_newslist() {
+        $show_header = '';
+        $this->siteid = 1;
+
+        $MODEL = getcache('model','commons');
+        $modelid = $MODEL[$this->siteid][modelid];
+
+        $admin_username = param::get_cookie('admin_username');
+        //查询当前的工作流
+        $setting = string2array($category['setting']);
+        $workflowid = $setting['workflowid'];
+        $workflows = getcache('workflow_'.$this->siteid,'commons');
+        $workflows = $workflows[$workflowid];
+        $workflows_setting = string2array($workflows['setting']);
+
+        //将有权限的级别放到新数组中
+
+        $admin_privs = array();
+        foreach($workflows_setting as $_k=>$_v) {
+            if(empty($_v)) continue;
+            foreach($_v as $_value) {
+                if($_value==$admin_username) $admin_privs[$_k] = $_k;
+            }
+        }
+
+        //工作流审核级别
+        $workflow_steps = $workflows['steps'];
+        $workflow_menu = '';
+        $steps = isset($_GET['steps']) ? intval($_GET['steps']) : 0;
+        //工作流权限判断
+
+        if($_SESSION['roleid']!=1 && $steps && !in_array($steps,$admin_privs)) showmessage(L('permission_to_operate'));
+        $this->db->set_model($modelid);
+        if($this->db->table_name==$this->db->db_tablepre) showmessage(L('model_table_not_exists'));;
+        $status = $steps ? $steps : 99;
+        if(isset($_GET['reject'])) $status = 0;
+        $where = 'status='.$status;
+        //搜索
+        //限制灰色稿件
+        if (in_array($_SESSION['roleid'], array('9'))) {
+            $where .= " AND username='{$admin_username}' ";
+        }
+        //echo $where;
+
+        $datas = $this->db->listinfo($where,'id desc',$_GET['page']);
+        $pages = $this->db->pages;
+        $pc_hash = $_SESSION['pc_hash'];
+        for($i=1;$i<=$workflow_steps;$i++) {
+            if($_SESSION['roleid']!=1 && !in_array($i,$admin_privs)) continue;
+
+            $current = $steps==$i ? 'class=on' : '';
+            $r = $this->db->get_one(array('catid'=>$catid,'status'=>$i));
+            $newimg = $r ? '<img src="'.IMG_PATH.'icon/new.png" style="padding-bottom:2px" onclick="window.location.href=?m=content&c=content&a=&menuid='.$_GET['menuid'].'&catid='.$catid.'&steps='.$i.'&pc_hash='.$pc_hash.'">' : '';
+            $workflow_menu .= '<a href="?m=content&c=content&a=&menuid='.$_GET['menuid'].'&catid='.$catid.'&steps='.$i.'&pc_hash='.$pc_hash.'" '.$current.' ><em>'.L('workflow_'.$i).$newimg.'</em></a><span>|</span>';
+        }
+        if($workflow_menu) {
+            $current = isset($_GET['reject']) ? 'class=on' : '';
+            $workflow_menu .= '<a href="?m=content&c=content&a=&menuid='.$_GET['menuid'].'&catid='.$catid.'&pc_hash='.$pc_hash.'&reject=1" '.$current.' ><em>'.L('reject').'</em></a><span>|</span>';
+        }
+
+        //$ = 153fc6d28dda8ca94eaa3686c8eed857;获取模型的thumb字段配置信息
+
+        $model_fields = getcache('model_field_'.$modelid, 'model');
+        $setting = string2array($model_fields['thumb']['setting']);
+        $args = '1,'.$setting['upload_allowext'].','.$setting['isselectimage'].','.$setting['images_width'].','.$setting['images_height'].','.$setting['watermark'];
+        $authkey = upload_key($args);
+        $template = $MODEL['admin_list_template'] ? $MODEL['admin_list_template'] : 'content_newslist';
+        include $this->admin_tpl($template);
+    }
 	
 	/**
 	 * 批量移动文章

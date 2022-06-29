@@ -96,7 +96,7 @@ return array (
     'module' => 'content',
     'file' => 'show',
     'ishtml' => '0',
-    'urlrule' => '{$catdir}/{$year}{$month}{$day}/{$id}.html',
+    'urlrule' => '{$catdir}/{$year}_{$month}_{$day}/{$id}.html',
     'example' => 'news/20200427/1000.html',
   ),
 );

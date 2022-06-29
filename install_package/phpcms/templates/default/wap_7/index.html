@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}" />
+    <meta name="description" content="{$SEO['description']}" />
+    {template "wap","meta"}
+</head>
+<body>
+{template "wap","header"}
+
+<div class="wrap">
+  <div id="content">
+    <div id="contentleft">
+      <div id="banners" class="ui-banner">
+        <ul class="ui-banner-slides">
+            {pc:content  action="position" posid="1"  order="listorder DESC" thumb="1" num="5"}
+            {loop $data $r}
+            <li><a href="{str_replace('www.','m.',$r['url'])}" target="_blank"><img src="{thumb($r['thumb'])}" alt="{$r['title']}" /></a></li>
+            {/loop}
+            {/pc}
+        </ul>
+        <ul class="ui-banner-slogans">
+            {pc:content action="position" posid="12" order="listorder DESC" thumb="1" num="5"}
+            {loop $data $r}
+            <li>
+                <h3 onClick="javascript:window.open('{str_replace('www.','m.',$r['url'])}')">{$r['title']}</h3>
+                <div class="des"> {str_cut($r['description'],100)}...</div>
+            </li>
+            {/loop}
+            {/pc}
+        </ul>
+      </div>
+
+      <script src="{M_APP_PATH}/statics/7/js/jqueryui.bannerize.js" type="text/javascript"></script>
+      <script type="text/javascript">
+        $(function(){
+            $('#banners').bannerize({
+                shuffle: 1,
+                interval: "8"
+            });
+        });
+      </script>
+
+      <div class="itbox">
+        <h3>今日头条</h3>
+        <div id="itscroll" class="itscroll">
+          <div class="con">
+            <ul>
+                {pc:content action="position" posid="12" order="listorder DESC" thumb="1" start="5" num="10"}
+                {loop $data $r}
+                <li><i class="fa fa-caret-left"></i><a href="{str_replace('www.','m.',$r['url'])}">{$r['title']}</a></li>
+                {/loop}
+                {/pc}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <script src="{M_APP_PATH}/statics/7/js/xMarquee.js" type="text/javascript"></script>
+      <div class="cmsbox">
+          {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC" return="cat"}
+          {loop $cat $t}
+          <div class="cmslist">
+              <div class="xyti"> <h3><i class="fa fa-list-ul"></i><a href="{$t[url]}" class="mcolor">{$t[catname]}</a></h3> </div>
+              <ul>
+                  {pc:get sql="SELECT * FROM `v9_news` a left join `v9_news_data` b on a.id=b.id WHERE a.catid=$t[catid] ORDER BY inputtime DESC" num="6" return="data"}
+                  {loop $data $r}
+                  {if $n==1}
+                  <li class="first"><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}" class="pic"><img src="{M_APP_PATH}/statics/7/images/nopic.gif" data-original="{thumb($r['thumb'])}" alt="{$r['title']}" /></a><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}" class="text">{$r['title']}</a>
+                      <div class="des"> {str_cut($r['description'],100)}...</div>
+                  </li>
+                  {else}
+                  <li><i class="fa fa-caret-right"></i><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{$r['title']}</a></li>
+                  {/if}
+                  {/loop}
+                  {/pc}
+              </ul>
+          </div>
+          {/loop}
+          {/pc}
+      </div>
+
+      <ul class="loglist">
+          {pc:get sql="SELECT * FROM `v9_news` a left join `v9_news_data` b on a.id=b.id ORDER BY inputtime DESC" num="10" return="data"}
+          {loop $data $r}
+          <li class="con">
+              <div class="info"> <span class="sn"> <a href="{$CATEGORYS[$r[catid]][url]}" class="mcolor">{$CATEGORYS[$r[catid]][catname]}</a> </span> </div>
+              <div class="des"> <a href="{str_replace('www.','m.',$r['url'])}" target="_blank" class="h2">{$r['title']}</a> <a href="{str_replace('www.','m.',$r['url'])}" target="_blank" class="pic"> <img src="{M_APP_PATH}/statics/7/images/nopic.gif" data-original="{thumb($r['thumb'])}" title="{$r['title']}" /> </a>
+                  <p class="text">{$r['description']}...</p>
+                  <p class="tags">发布于：{date('Y-m-d',$r[inputtime])}</p>
+              </div>
+              <a href="{str_replace('www.','m.',$r['url'])}" target="_blank" class="more">详细阅读<i class="fa fa-angle-right"></i></a>
+          </li>
+          {/loop}
+          {/pc}
+      </ul>
+      <script src="{M_APP_PATH}/statics/7/js/jquery.masonry.min.js" type="text/javascript"></script>
+      <script src="{M_APP_PATH}/statics/7/js/jquery.infinitescroll.min.js" type="text/javascript"></script>
+      <script type="text/javascript">
+          $(function(){
+              var $container = $('#ajax-more');
+              $container.imagesLoaded( function(){
+                  $container.masonry({
+                      itemSelector : '.wapost',
+                      isAnimated: true,
+                      isResizable: false,
+                  });
+              });
+              $container.infinitescroll({
+                  navSelector  : '#pagenavi',
+                  nextSelector : '#pagenavi a',
+                  itemSelector : '.wapost',
+                  animate : true,  //是否采用动态效果
+                  extraScrollPx: 200, //向下滚动的像素的动态效果
+                  maxPage: 2,
+                  loading: {
+                      msgText: '加载中...',
+                      finishedMsg: '已完成最大加载设置...',
+                      selector: '.loading'
+                  }
+              },function(newElems){
+                  var $newElems = $(newElems);
+                  $('#ajax-more').masonry('appended', $newElems, true);
+                  $("#ajax-more img").lazyload({
+                      effect : "fadeIn"
+                  });
+              });
+          });
+      </script>
+      <div id="pagenavi"></div>
+    </div>
+    <!-- end #contentleft--> 
+    <ul id="sidebar">
+      <li id="blogsort">
+        <h3 class="mcolor"><i class="fa fa-folder-open-o"></i><span>分类导航</span></h3>
+        <ul>
+            {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+            {loop $data $r}
+            <li> <a href="{str_replace('www.','m.',$r[url])}">{$r[catname]}<i>({$r[items]})</i></a> </li>
+            {pc:get sql="select * from v9_category where parentid =$r[catid] order by listorder ASC" return="data"}
+            {loop $data $r2}
+            <li> <a href="{str_replace('www.','m.',$r[url])}">{$r[catname]}<i>({$r[items]})</i></a> </li>
+            {/loop}
+            {/pc}
+            {/loop}
+            {/pc}
+        </ul>
+      </li>
+      <li class="rlist1">
+        <h3><span>热门文章</span></h3>
+        <ul id="hotlog">
+            {pc:get sql="SELECT * FROM `v9_news` a,`v9_hits` p WHERE a.catid=p.catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" num="10"}
+            {loop $data $r}
+            <li><i class='mcolor' >{$n}</i><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{str_cut($r['title'],30)}...</a></li>
+            {/loop}
+            {/pc}
+        </ul>
+      </li>
+      <li class="rlist1">
+        <h3><span>随机文章</span></h3>
+        <ul id="randlog">
+              <div id='tagcbed56ad09f4bacad68031b3ee31a837'>
+                  {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY rand()" num="10" cache="3600"}
+                  {loop $data $r}
+                  <li><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{str_cut($r['title'],36)}...</a></li>
+                  {/loop}
+                  {/pc}
+            </div>
+        </ul>
+      </li>
+    </ul>
+ </div>
+  <!--end #content--> 
+</div>
+<!--end wrap-->
+<div id="footerbar">
+    <div class="friendlink">
+        <div class="friendlinktitle">友情链接</div>
+        {pc:link  action="type_list" siteid="$siteid" linktype="1" order="listorder DESC" return="pic_link"}
+        {loop $pic_link $v}
+        <i class="fa fa-link"></i><a href='{str_replace('www.','m.',$r[url])}' target='_blank'>{$v[name]}</a>
+        {/loop}
+        {/pc}
+    </div>
+
+    {template "wap","footer"}
+</div>
+<!--end #footerbar-->
+<div id="backtop"><span class="fa fa-space-shuttle fa-rotate-270"></span></div>
+
+</body>
+</html>

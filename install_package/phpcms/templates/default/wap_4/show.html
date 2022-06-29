@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{$title}-{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}">
+    <meta name="description" content="{$SEO['description']}">
+    {template "wap","meta"}
+</head>
+<body>
+<div id="wrapper">
+    {template "wap","header"}
+    <div id="main">
+        <div class="wrap">
+      <div class="post">
+        <div class="post-title">
+          <h1 class="title">{$title}</h1>
+          <div class="post_icon">
+              <span class="mr10  postuser"><i class="icon-user"></i><a>{$username}</a></span>
+              <span class="mr10  postclock"><i class="icon-clock"></i>{$updatetime}</span>
+              <span class="mr10 posteye"><i class="icon-eye"></i></span> <span id="hits"></span><script language="JavaScript" src="{M_APP_PATH}api.php?op=count&id={$id}&modelid={$modelid}"></script></div>
+        </div>
+        <div class="post-content">{$content}</div>
+
+
+        <div class="postmetadata"> 
+          <i class="icon-share-squared"></i>本文链接地址：<a href="{$url}" title="{$title}">{$title}</a> , 转载请保留本说明！
+          <div class="post-tags">
+            <div class="tags"><i class=" icon-bookmark"></i>标签：{$CATEGORYS[$catid][catname]}</div>
+          </div>
+        </div>
+
+          <div>
+              <p> 上一篇：<a href="{$previous_page[url]}">{$previous_page[title]}</a>  </p>
+              <p> 下一篇：<a href="{$next_page[url]}">{$next_page[title]}</a>  </p>
+          </div>
+        
+        <!--作者信息-->
+
+        <div class="clear"></div>
+        <div id="related">
+          <div class="related_about"><span>相关文章</span></div>
+          <ul class="related_img">
+              {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="4" cache="3600"}
+              {if $data}
+              {loop $data $r}
+              <li class="related_box"  > <a href="{str_replace('www.','m.',$r[url])}" title="{$r[title]}" target="_blank"> <img class="thumbnail" src="{thumb($r['thumb'])}" alt="{$r[title]}" />
+                  <h3>{$r[title]}</h3>
+              </a> </li>
+              {/loop}
+              {/if}
+              {/pc}
+          </ul>
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    </div>
+    <div class="sidebar">
+        <div class="widget widget_suxingme_hotpost">
+            <div class="w_title">
+                <h3>热门文章</h3>
+            </div>
+            <ul>
+                {pc:get sql="SELECT * FROM `v9_news` a,`v9_hits` p WHERE a.catid=p.catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" start="6"  num="10"}
+                {php $categorys = getcache('category_content_'.$siteid,'commons');}
+                {loop $data $r}
+                {php $category = $categorys[$r[catid]];}
+                {php $modelid = $category['modelid'];}
+                {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+                {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+                <li><a href="{str_replace('www.','m.',$r['url'])} rel="bookmark" title="{$r['title']}">
+                    <p class="title">{str_cut($r['title'],50)}</p>
+                    </a></li>
+                {/loop}
+                {/pc}
+            </ul>
+        </div>
+
+        <div class="widget widget_suxingme_hotpost">
+            <div class="w_title">
+                <h3>最新文章</h3>
+            </div>
+            <ul>
+                {pc:get sql="SELECT * FROM v9_news a left join v9_news_data b on a.id=b.id WHERE a.catid=$catid ORDER BY inputtime DESC" num="10"}
+                {loop $data $v}
+                <li><a href="{str_replace('www.','m.',$v['url'])}" rel="bookmark" title="{$v['title']}"><p class="title">{str_cut($v['title'],50)}</p></a></li>
+                {/loop}
+                {/pc}
+            </ul>
+        </div>
+
+        <div class="widget widget_suxingme_hotpost">
+            <div class="w_title">
+                <h3>随便看看</h3>
+            </div>
+            <ul>
+                {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY rand()" num="10" cache="3600"}
+                {loop $data $v}
+                <li><a href="{str_replace('www.','m.',$r[url])}" rel="bookmark" title="{$v['title']}"><p class="title">{str_cut($v['title'],50)}</p></a></li>
+                {/loop}
+                {/pc}
+            </ul>
+        </div>
+
+
+
+        <div class="widget suxingme_tag">
+            <div class="w_title">
+                <h3>热门标签</h3>
+            </div>
+            <div class="widge_tags">
+                <ul class="widget_tags_ul">
+                    {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+                    {loop $data $r}
+                    <li><a href="{str_replace('www.','m.',$r[url])}" title="{$r[catname]}" >{$r[catname]} </a></li>
+                    {pc:get sql="select * from v9_category where parentid =$r[catid] order by listorder ASC" return="data"}
+                    {loop $data $r2}
+                    <li><a href="{$r2[url]}" title="{$r2[catname]}" >{$r2[catname]} </a></li>
+                    {/loop}
+                    {/pc}
+                    {/loop}
+                    {/pc}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{template "wap","footer"}
+
+<script type="text/javascript" src="{M_APP_PATH}/statics/4/js/suxingme.js"></script>
+<script type="text/javascript" src="{M_APP_PATH}/statics/4/js/fancybox.js"></script><script type="text/javascript">
+			$(document).ready(function() {$(".fancybox").fancybox()});
+		</script> 
+<script type='text/javascript' src='{M_APP_PATH}/statics/4/js/wp-embed.min.js'></script>
+</body>
+</html>
+</body>
+</html>

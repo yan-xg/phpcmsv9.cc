@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}" />
+    <meta name="description" content="{$SEO['description']}" />
+    {template "wap","meta"}
+</head>
+<body>
+{template "wap","header"}
+
+<div class="wrap">
+    <div class="main">
+    <div class="screen">
+      <div class="slide_container">
+        <ul class="rslides" id="slider">
+            {pc:content  action="position" posid="1"  order="listorder DESC" thumb="1" num="5"}
+            {loop $data $r}
+            <li><a href="{str_replace('www.','m.',$r['url'])}" target="_blank"><img src="{thumb($r['thumb'])}" alt="{$r['title']}" style="height: 350px;" /></a></li>
+            {/loop}
+            {/pc}
+        </ul>
+      </div>
+    </div>
+
+      {pc:get sql="SELECT * FROM `v9_news` a left join `v9_news_data` b on a.id=b.id ORDER BY inputtime DESC" num="10" return="data"}
+      {php $categorys = getcache('category_content_'.$siteid,'commons');}
+      {loop $data $r}
+      {php $category = $categorys[$r[catid]];}
+      {php $modelid = $category['modelid'];}
+      {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+      {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+      <div class="block">
+          <h2>
+              <span class="category">
+                 <a href="{$CATEGORYS[$r[catid]][url]}" rel="category tag" >{$CATEGORYS[$r[catid]][catname]}</a>
+                <i class="fa fa-caret-right"></i>
+              </span>
+              <a href="{str_replace('www.','m.',$r['url'])}"  target="_ablank" >{$r['title']}</a>
+          </h2>
+          <div class="clear"></div>
+
+          <div class='viewimg'> <a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}" target='_ablank' class='ipic'> <img src="{thumb($r['thumb'])}" alt="{$r['title']}" class='thumbnail' /><span class='shine' style='background-position: 160px 50%;'> </span></a> </div>
+
+          <div class="preview"> {$r['description']}...</div>
+          <div class="preem">
+              <span><i class="fa fa-clock-o"></i> {date('Y-m-d',$r[inputtime])} </span>
+              <span><i class="fa fa-eye"></i> {$views} </span><span> </span>
+              <span class="more"><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">阅读详情</a></span>
+          </div>
+      </div>
+      {/loop}
+      {/pc}
+  </div>
+
+    <div class="sider">
+  <div class="right">
+
+    <div class="subblock">
+      <h3>推荐文章</h3>
+      <ul>
+          {pc:content action="position" posid="2" order="listorder DESC" num="6"}
+          {loop $data $r}
+          {if $n==1}
+          <li>
+              <div class="sideshow">
+                  <a href="{str_replace('www.','m.',$r['url'])}" target="_ablank"  title="{$r['title']}">
+                      <img width='80' height='60' src="{thumb($r['thumb'])}" class='icon wp-post-image' alt="{$r['title']}" title="{$r['title']}" />
+                  </a>
+                  <a href="{str_replace('www.','m.',$r['url'])}" target="_ablank"  title="{$r['title']}"> {$r['title']}</a>
+                  <span class="datetime"> {date('Y-m-d',$r[inputtime])} </span>
+              </div>
+          </li>
+          {else}
+          <li>
+              <div class="sideshow"><a href="{str_replace('www.','m.',$r['url'])}" target="_ablank"  title="{$r['title']}">  </a>
+                  <a href="{str_replace('www.','m.',$r['url'])}" target="_ablank"  title="{$r['title']}"> {$r['title']}</a>
+                  <span class="datetime"> {date('Y-m-d',$r[inputtime])} </span>
+              </div>
+          </li>
+          {/if}
+          {/loop}
+          {/pc}
+      </ul>
+    </div>
+
+
+    <div class="subblock">
+      <h3>热门文章</h3>
+      <ul>
+          {pc:get sql="SELECT * FROM `v9_news` a,`v9_hits` p WHERE a.catid=p.catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC"  num="6"}
+          {loop $data $r}
+          {if $n==1}
+          <li>
+              <div class="sideshow">
+                  <a href="{str_replace('www.','m.',$r['url'])}" target="_ablank"  title="{$r['title']}">
+                      <img width='80' height='60' src="{thumb($r['thumb'])}" class='icon wp-post-image' alt="{$r['title']}" title="{$r['title']}" />
+                  </a>
+                  <a href="{str_replace('www.','m.',$r['url'])}" target="_ablank"  title="{$r['title']}"> {$r['title']}</a>
+                  <span class="datetime"> {date('Y-m-d',$r[inputtime])} </span>
+              </div>
+          </li>
+          {else}
+          <li>
+              <div class="sideshow"><a href="{str_replace('www.','m.',$r['url'])}" target="_ablank"  title="{$r['title']}">  </a>
+                  <a href="{str_replace('www.','m.',$r['url'])}" target="_ablank"  title="{$r['title']}"> {$r['title']}</a>
+                  <span class="datetime"> {date('Y-m-d',$r[inputtime])} </span>
+              </div>
+          </li>
+          {/if}
+          {/loop}
+          {/pc}
+
+      </ul>
+    </div>
+    
+    <div class="subblock linkcat">
+      <h3>友情链接</h3>
+      <ul>
+          {pc:link  action="type_list" siteid="$siteid" linktype="1" order="listorder DESC" return="pic_link"}
+          {loop $pic_link $v}
+          <li><a href='{str_replace('www.','m.',$r[url])}' target='_blank'>{$v[name]}</a> </li>
+          {/loop}
+          {/pc}
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<div class="clear"></div>
+{template "wap","footer"}
+
+</body>
+</html>

@@ -883,12 +883,12 @@ text-decoration:underline;
 	display: block;
 	width: 26px;
 	height: 62px;
-	background: url(../img/rocket.png) no-repeat 0 0;
+	background: url(../images/rocket.png) no-repeat 0 0;
 	-webkit-transition: all .2s ease-in-out;
 	cursor: pointer;
 }
 .totop:hover {
-	background: url(../img/rocket.png) no-repeat 0 -62px;
+	background: url(../images/rocket.png) no-repeat 0 -62px;
 }
 .dp-highlighter {
 	font-family: "Courier New", Courier, mono;
@@ -1239,7 +1239,7 @@ text-decoration:underline;
 	left: 0;
 	width: 160px;
 	height: 120px;
-	background: url(../img/shine_brands.png) no-repeat -160px 0;
+	background: url(../images/shine_brands.png) no-repeat -160px 0;
 	margin: 4px;
 }
 .rslides {
@@ -1325,7 +1325,7 @@ text-decoration:underline;
 	text-decoration: none;
 	height: 61px;
 	width: 38px;
-	background: transparent url("./../img/themes.gif") no-repeat left top;
+	background: transparent url("./../images/themes.gif") no-repeat left top;
 	margin-top: -45px;
 	display: none;
 }

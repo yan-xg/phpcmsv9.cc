@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}" />
+    <meta name="description" content="{$SEO['description']}" />
+    {template "wap","meta"}
+</head>
+<body>
+{template "wap","header"}
+
+<section class="container">
+  <div class="content-wrap">
+    <div class="content">
+      <!---->
+      <article class="excerpt-see excerpt-see-index pc">
+          {pc:content action="position" posid="2" order="listorder DESC" num="1"}
+          {loop $data $r}
+          <h2><span class="red">【站长推荐】</span>
+              <a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{$r['title']}</a>
+          </h2>
+          <p class="note"> <a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{str_cut($r['description'],100)}...</a></p>
+          {/loop}
+          {/pc}
+
+        <div class="relatescom">
+          <ul>
+              {pc:content action="position" posid="2" order="listorder DESC" start="1" num="6"}
+              {loop $data $r}
+              <li><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{$r['title']}</a></li>
+              {/loop}
+              {/pc}
+          </ul>
+        </div>
+      </article>
+
+        {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="10"}
+        {php $categorys = getcache('category_content_'.$siteid,'commons');}
+        {loop $data $r}
+        {php $category = $categorys[$r[catid]];}
+        {php $modelid = $category['modelid'];}
+        {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+        {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+
+        <article class="excerpt">
+            <a class="focus" href="{str_replace('www.','m.',$r['url'])}"><img src="{thumb($r['thumb'])}" alt="{$r['title']}"/></a>
+            <header>
+                <a href="{$CATEGORYS[$r[catid]][url]}" class="cat" title="{$CATEGORYS[$r[catid]][catname]}">{$CATEGORYS[$r[catid]][catname]}</a>
+                <h2><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{$r['title']}</a></h2>
+            </header>
+            <p class="meta">
+                <time>{date('Y-m-d',$r[inputtime])}</time>
+                <span class="pv">阅读({$views})</span> </p>
+            <p class="note pc"> <a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{str_cut($r['description'],100)}...</a></p>
+        </article>
+
+        {/loop}
+        {/pc}
+
+      <div class="cygswtags tags">
+        <ul>
+            {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+            {loop $data $r}
+            <li><a href="{str_replace('www.','m.',$r[url])}" title="{$r[catname]}">{$r[catname]}</a></li>
+            {pc:get sql="select * from v9_category where parentid =$r[catid] order by listorder ASC" return="data"}
+            {loop $data $r2}
+            <li><a href="{$r2[url]}" title="{$r2[catname]}">{$r2[catname]}</a></li>
+            {/loop}
+            {/pc}
+            {/loop}
+            {/pc}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <aside class="sidebar pc">
+      <dl class="function" id="divPrevious">
+          <dt class="function_t">头条推荐</dt>
+          <dd class="function_c">
+              <ul>
+                  {pc:content  action="position" posid="1"  order="listorder DESC" thumb="1" num="5"}
+                  {loop $data $r}
+                  <li><a href="{str_replace('www.','m.',$r['url'])}">{$r['title']}</a></li>
+                  {/loop}
+                  {/pc}
+              </ul>
+          </dd>
+      </dl>
+
+    <dl class="function" id="divPrevious">
+      <dt class="function_t">热门文章</dt>
+      <dd class="function_c">
+        <ul>
+            {pc:get sql="SELECT * FROM `v9_news` a,`v9_hits` p WHERE a.catid=p.catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC"  num="10"}
+            {loop $data $r}
+            <li><a href="{str_replace('www.','m.',$r['url'])}">{$r['title']}</a></li>
+            {/loop}
+            {/pc}
+        </ul>
+      </dd>
+    </dl>
+
+    <div class="widget widget_ui_tags">
+      <h3>友情链接</h3>
+      <div class="items">
+        <ul>
+            {pc:link  action="type_list" siteid="$siteid" linktype="1" order="listorder DESC" return="pic_link"}
+            {loop $pic_link $v}
+            <li><a href='{str_replace('www.','m.',$r[url])}' target='_blank'>{$v[name]}</a> </li>
+            {/loop}
+            {/pc}
+        </ul>
+      </div>
+    </div>
+  </aside>
+</section>
+
+{template "wap","footer"}
+
+</body>
+</html>

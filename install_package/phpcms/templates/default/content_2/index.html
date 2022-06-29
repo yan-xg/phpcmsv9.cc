@@ -87,7 +87,7 @@
       <!-- 最新文章 -->
       <div class="new-post"> 
         <!--<p class="c-title"><span>最新文章</span></p>-->
-          {pc:content action="lists" num="10" order="inputtime DESC" cache="3600"}
+          {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="10"}
           {php $categorys = getcache('category_content_'.$siteid,'commons');}
           {loop $data $r}
           {php $category = $categorys[$r[catid]];}

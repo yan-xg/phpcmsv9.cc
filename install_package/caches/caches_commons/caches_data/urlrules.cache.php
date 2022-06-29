@@ -10,6 +10,6 @@ return array (
   30 => 'list-{$catid}-{$page}.html',
   31 => '/{$categorydir}{$catdir}/|/{$categorydir}{$catdir}/list_{$catid}_{$page}.html',
   32 => '/{$catdir}/|/{$catdir}/list_{$catid}_{$page}.html',
-  33 => '{$catdir}/{$year}{$month}{$day}/{$id}.html',
+  33 => '{$catdir}/{$year}_{$month}_{$day}/{$id}.html',
 );
 ?>

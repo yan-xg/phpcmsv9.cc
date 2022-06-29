@@ -62,7 +62,7 @@
         </div>
 
         <ul class="post-loop post-loop-default tab-wrap clearfix active">
-            {pc:get sql="SELECT * FROM `v9_news` a left join `v9_news_data` b on a.id=b.id ORDER BY inputtime DESC" num="10" cache="3600" return="data"}
+            {pc:get sql="SELECT * FROM `v9_news` a left join `v9_news_data` b on a.id=b.id ORDER BY inputtime DESC" num="10" return="data"}
             {php $categorys = getcache('category_content_'.$siteid,'commons');}
             {loop $data $r}
             {php $category = $categorys[$r[catid]];}

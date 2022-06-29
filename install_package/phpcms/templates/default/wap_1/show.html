@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{$title}-{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}">
+    <meta name="description" content="{$SEO['description']}">
+    {template "wap","meta"}
+</head>
+<body>
+{template "wap","header"}
+
+<div class="inner container">
+  <main class="main">
+    <div class="content">
+     <div class="breadcrumb"> <span> <i class="icon-home"></i><a href="{siteurl($siteid)}">主页</a> > {catpos($catid)}</span> </div>
+      <article class="post">
+        <h1 class="post-title">{$title}</h1>
+        <div class="postmeta">
+            <span><i class="icon-user-circle-o"></i> <a>{$username}</a></span>
+            <span><i class="icon-calendar"></i><time>{$updatetime}</time></span>
+            <span><i class="icon-eye"></i> <span id="hits"></span><script language="JavaScript" src="{M_APP_PATH}api.php?op=count&id={$id}&modelid={$modelid}"></script></span>
+        </div>
+        
+        <div class="entry">{$content}</div>
+
+        <div class="tags"> <i class="icon-tags">{$CAT[catname]}</i>  </div>
+        <div class="postnavi">
+          <div class="prev">上一篇：<a href="{str_replace('www.','m.',$previous_page[url])}">{$previous_page[title]}</a> </div>
+          <div class="next">下一篇：<a href="{str_replace('www.','m.',$next_page[url])}">{$next_page[title]}</a> </div>
+        </div>
+
+<!--        <section class="related-post">-->
+<!--          <h3><i class="icon-list-alt"></i> 您可能还会对下面的文章感兴趣：</h3>-->
+<!--          <ul></ul>-->
+<!--        </section>-->
+
+        <section class="related-pic">
+          <h3><i class="icon-file-image"></i> 相关文章</h3>
+          <ul>
+              {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="8" cache="3600"}
+              {if $data}
+              {loop $data $r}
+              <li>
+                  <div class="thumbnail"><a href="{str_replace('www.','m.',$r[url])}" title="{$r[title]}" target="_blank"><img src="{thumb($r['thumb'])}"/></a></div>
+                  <p><a href="{str_replace('www.','m.',$r[url])}" title="{$r[title]}" target="_blank">{$r[title]}</a></p>
+              </li>
+              {/loop}
+              {/if}
+              {/pc}
+          </ul>
+        </section>
+
+      </article>
+    </div>
+  </main>
+  <aside class="sidebar bar1">
+    <section class="widget theme-widget wow fadeInUp">
+      <div class="section-title">
+        <h3>最新文章</h3>
+      </div>
+      <ul>
+          {pc:content action="lists" catid="$catid" num="5" order="id DESC"}
+          {loop $data $r}
+          <li>
+              <div class="thumbnail"> <a href="{str_replace('www.','m.',$r[url])}" title="{$r[title]}" target="_blank"><img src="{thumb($r['thumb'])}"/></a> </div>
+              <p><a href="{str_replace('www.','m.',$r[url])}" title="{$r[title]}" target="_blank">{$r[title]}...</a></p>
+          </li>
+          {/loop}
+          {/pc}
+      </ul>
+    </section>
+
+  </aside>
+</div>
+
+{template "wap","footer"}
+</body>
+</html>

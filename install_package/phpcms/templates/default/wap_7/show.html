@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{$title}-{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}">
+    <meta name="description" content="{$SEO['description']}">
+    {template "wap","meta"}
+</head>
+<body>
+{template "wap","header"}
+
+<div class="wrap">
+  <div id="content">
+    <div id="contentleft">
+      <div class="itbox pagenow logcu"> <a href="{siteurl($siteid)}">主页</a> > {catpos($catid)} 文章正文   </div>
+      <div class="logbox">
+        <h1>{$title}</h1>
+        <div class="data">
+            <a href="{$CATEGORYS[$catid][url]}" class="mcolor">{$CATEGORYS[$catid][catname]}</a>
+            <i class="fa fa-clock-o"></i>{$updatetime}
+            <i class="fa fa-eye"></i><span id="hits"></span><script language="JavaScript" src="{M_APP_PATH}api.php?op=count&id={$id}&modelid={$modelid}"></script>
+            <i class="fa fa-link"></i>网络整理
+            <i class="fa fa-user"></i>{$username}
+        </div>
+        <div class="logcon">{$content}</div>
+
+        <script>cambrian.render('body')</script>
+
+          <div class="nextlog">
+              <a href='{$previous_page[url]}' class="prev"><span>上一篇</span><i class="fa fa-angle-left fa-3x"></i><strong>{$previous_page[title]}</strong></a>
+              <a href='{$next_page[url]}' class="next"><span>下一篇</span><strong>{$next_page[title]}</strong><i class="fa fa-angle-right fa-3x"></i></a>
+          </div>
+        <div class="link-box">
+          <h3>相关阅读</h3>
+          <ul class="ullist4">
+              {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="10" cache="3600"}
+              {if $data}
+              {loop $data $r}
+              <li class="related-item mt fl">
+                  <a href="{str_replace('www.','m.',$r[url])}" title="{$r[title]}"><p class="titile">{$r[title]}</p></a>
+              </li>
+              {/loop}
+              {/if}
+              {/pc}
+          </ul>
+        </div>
+        <div id="pagenavi"> </div>
+      </div>
+    </div>
+
+      <ul id="sidebar">
+          <li id="blogsort">
+              <h3 class="mcolor"><i class="fa fa-folder-open-o"></i><span>分类导航</span></h3>
+              <ul>
+                  {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+                  {loop $data $r}
+                  <li> <a href="{str_replace('www.','m.',$r[url])}">{$r[catname]}<i>({$r[items]})</i></a> </li>
+                  {pc:get sql="select * from v9_category where parentid =$r[catid] order by listorder ASC" return="data"}
+                  {loop $data $r2}
+                  <li> <a href="{str_replace('www.','m.',$r[url])}">{$r[catname]}<i>({$r[items]})</i></a> </li>
+                  {/loop}
+                  {/pc}
+                  {/loop}
+                  {/pc}
+              </ul>
+          </li>
+          <li class="rlist1">
+              <h3><span>热门文章</span></h3>
+              <ul id="hotlog">
+                  {pc:get sql="SELECT * FROM `v9_news` a left join `v9_hits` p on a.catid=p.catid WHERE a.catid=$catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" num="10"}
+                  {loop $data $r}
+                  <li><i class='mcolor' >{$n}</i><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{str_cut($r['title'],30)}...</a></li>
+                  {/loop}
+                  {/pc}
+              </ul>
+          </li>
+          <li class="rlist1">
+              <h3><span>随机文章</span></h3>
+              <ul id="randlog">
+                  <div id='tagcbed56ad09f4bacad68031b3ee31a837'>
+                      {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY rand()" num="10" cache="3600"}
+                      {loop $data $r}
+                      <li><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{str_cut($r['title'],36)}...</a></li>
+                      {/loop}
+                      {/pc}
+                  </div>
+              </ul>
+          </li>
+      </ul>
+<!--end #siderbar--> 
+  </div>
+  <!--end #content--> 
+</div>
+<!--end wrap-->
+<div id="footerbar">
+    {template "wap","footer"}
+</div>
+<!--end #footerbar-->
+<div id="backtop"><span class="fa fa-space-shuttle fa-rotate-270"></span></div>
+
+</body>
+</html>

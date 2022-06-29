@@ -13,7 +13,7 @@ return array (
     'enablesearch' => '1',
     'disabled' => '0',
     'default_style' => 'default',
-    'category_template' => 'category',
+    'category_template' => '',
     'list_template' => 'list',
     'show_template' => 'show',
     'js_template' => '',

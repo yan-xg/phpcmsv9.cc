@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>{$catname}-{$SEO['site_title']}</title>
+  <meta name="keywords" content="{$SEO['keyword']}">
+  <meta name="description" content="{$SEO['description']}">
+  {template "wap","meta"}
+</head>
+<body>
+{template "wap","header"}
+
+<section class="container">
+  <div class="content-wrap">
+    <div class="content">
+      <article class="excerpttu">
+        <header>
+          <h1 class="listtag">{$catname}</h1>
+        </header>
+        <p class="note">  </p>
+      </article>
+
+      {pc:content action="lists" catid="$catid" num="10" order="id DESC" page="$page"}
+      {php $categorys = getcache('category_content_'.$siteid,'commons');}
+      {loop $data $r}
+      {php $category = $categorys[$r[catid]];}
+      {php $modelid = $category['modelid'];}
+      {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+      {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+      <article class="excerpt">
+        <a class="focus" href="{str_replace('www.','m.',$r['url'])}"><img src="{thumb($r['thumb'])}" alt="{$r['title']}"/></a>
+        <header>
+          <a href="{$CATEGORYS[$r[catid]][url]}" class="cat" title="{$CATEGORYS[$r[catid]][catname]}">{$CATEGORYS[$r[catid]][catname]}</a>
+          <h2><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{$r['title']}</a></h2>
+        </header>
+        <p class="meta">
+          <time>{date('Y-m-d',$r[inputtime])}</time>
+          <span class="pv">阅读({$views})</span> </p>
+        <p class="note pc"> <a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{str_cut($r['description'],100)}...</a></p>
+      </article>
+      {/loop}
+      <div class="pagination">{$li_pages}</div>
+      {/pc}
+
+      <div class="cygswtags tags">
+        <ul>
+          {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+          {loop $data $r}
+          <li><a href="{str_replace('www.','m.',$r[url])}" title="{$r[catname]}">{$r[catname]}</a></li>
+          {pc:get sql="select * from v9_category where parentid =$r[catid] order by listorder ASC" return="data"}
+          {loop $data $r2}
+          <li><a href="{$r2[url]}" title="{$r2[catname]}">{$r2[catname]}</a></li>
+          {/loop}
+          {/pc}
+          {/loop}
+          {/pc}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <aside class="sidebar pc">
+    <dl class="function" id="divPrevious">
+      <dt class="function_t">头条推荐</dt>
+      <dd class="function_c">
+        <ul>
+          {pc:content  action="position" posid="1"  order="listorder DESC" thumb="1" num="5"}
+          {loop $data $r}
+          <li><a href="{str_replace('www.','m.',$r['url'])}">{$r['title']}</a></li>
+          {/loop}
+          {/pc}
+        </ul>
+      </dd>
+    </dl>
+
+    <dl class="function" id="divPrevious">
+      <dt class="function_t">热门文章</dt>
+      <dd class="function_c">
+        <ul>
+          {pc:get sql="SELECT * FROM `v9_news` a left join `v9_hits` p on a.catid=p.catid WHERE a.catid=$catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC"  num="10"}
+          {loop $data $r}
+          <li><a href="{str_replace('www.','m.',$r['url'])}">{$r['title']}</a></li>
+          {/loop}
+          {/pc}
+        </ul>
+      </dd>
+    </dl>
+  </aside>
+</section>
+{template "wap","footer"}
+
+</body>
+</html>
+<!--37.52 ms , 11 query , 2371kb memory , 0 error-->

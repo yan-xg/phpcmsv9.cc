@@ -1,669 +1,246 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8">
     <title>PHPCMS演示站</title>
     <meta name="keywords" content="PHPCMS演示站" />
     <meta name="description" content="PHPCMS演示站" />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-<meta name="renderer" content="webkit">
-<meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
-<meta name="applicable-device" content="pc,mobile"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="Cache-Control" content="no-transform"/>
-<link rel='stylesheet' id='stylesheet-css' href='http://phpcmsv9.cc:8008//statics/aslnb/css/style.css' type='text/css' media='all'/>
-<link rel='stylesheet' id='wp-block-library-css' href='http://phpcmsv9.cc:8008//statics/aslnb/css/style.min.css' type='text/css' media='all'/>
-<link rel='stylesheet' href='http://phpcmsv9.cc:8008//statics/aslnb/css/index.css' type='text/css'/>
-<script type='text/javascript' src='http://phpcmsv9.cc:8008//statics/aslnb/js/jquery.min.js'></script>
-<script type='text/javascript' src='http://phpcmsv9.cc:8008//statics/aslnb/js/jquery-migrate.min.js'></script>
-<script> (function () {
-    if (!/*@cc_on!@*/0) return;
-    var e = "abbr, article, aside, audio, canvas, datalist, details, dialog, eventsource, figure, footer, header, hgroup, mark, menu, meter, nav, output, progress, section, time, video".split(', ');
-    var i = e.length;
-    while (i--) {
-        document.createElement(e[i])
-    }
-})()</script>
-<!--[if lte IE 8]>
-<script src="http://phpcmsv9.cc:8008//statics/aslnb/js/respond.min.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="applicable-device" content="pc,mobile"/>
+<link rel="stylesheet" type="text/css" href="http://www.phpcmsv9.cc:8008//statics/1/css/main.css" media="screen"/>
+<link rel="stylesheet" href="http://www.phpcmsv9.cc:8008//statics/1/css/fontello.css"/>
+<!--[if IE 7]><link rel="stylesheet" href="http://www.phpcmsv9.cc:8008//statics/1/css/fontello-ie7.css"><![endif]-->
+<link rel="stylesheet" href="http://www.phpcmsv9.cc:8008//statics/1/css/animate.css"/>
+<!--[if lt IE 9]>
+<script type="text/javascript" src="http://www.phpcmsv9.cc:8008//statics/1/js/html5-css3.js"></script>
 <![endif]-->
+<script type="text/javascript" src="http://www.phpcmsv9.cc:8008//statics/1/js/jquery-1.11.0.min.js"></script>
+<link href="http://www.phpcmsv9.cc:8008//statics/1/css/prettify.css" rel="stylesheet" type="text/css" />
+<script src="http://www.phpcmsv9.cc:8008//statics/1/js/prettify.js" type="text/javascript"></script>
+<script src="http://www.phpcmsv9.cc:8008//statics/1/js/common_tpl.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://www.phpcmsv9.cc:8008//statics/1/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="http://www.phpcmsv9.cc:8008//statics/1/js/wow.js"></script>
+<script>new WOW().init();</script>
+<script type="text/javascript" src="http://www.phpcmsv9.cc:8008//statics/1/js/leonhere.js"></script>
 </head>
-<body class="home blog el-boxed">
+<body>
 <header class="header">
-    <div class="container clearfix">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar icon-bar-1"></span>
-                <span class="icon-bar icon-bar-2"></span>
-                <span class="icon-bar icon-bar-3"></span>
-            </button>
-            <h1 class="logo">
-                <a href="/" rel="home">
-                    <img src="http://phpcmsv9.cc:8008//statics/aslnb/images/logo.png" alt="PHPCMS演示站">
-                </a>
-            </h1>
+    <div class="inner">
+        <div class="logo animated fadeInLeft">
+            <a href="/" title="PHPCMS演示站">
+                <img src="http://www.phpcmsv9.cc:8008//statics/1/images/logo.png" alt="PHPCMS演示站"/>
+            </a>
         </div>
-        <div class="collapse navbar-collapse">
-            <nav class="navbar-left primary-menu">
-                <ul id="menu" class="nav navbar-nav wpcom-adv-menu">
-                    <li class="menu-item  active "><a href="/">首页</a></li>
-                                                            <li class="menu-item "><a href="http://phpcmsv9.cc:8008/shenghuo/">生活</a>
-                                        <li class="menu-item "><a href="http://phpcmsv9.cc:8008/zixun/">资讯</a>
-                                        <li class="menu-item "><a href="http://phpcmsv9.cc:8008/cha/">茶</a>
-                                                        </ul>
-            </nav>
+        <div class="top-other">
+            <ul>
+                <li><i class="icon-menu"></i></li>
+<!--                <li><i class="icon-search"></i></li>
+                <li><i class="icon-share"></i>
+                    <div class="social-share">
+                        <div class="bdsharebuttonbox"> <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">QQ空间</a> <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">新浪微博</a> <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博">腾讯微博</a> <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网">人人网</a> <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信">微信</a> </div>
+                    </div>
+                </li>
+                -->
+                <div class="clear"></div>
+            </ul>
         </div>
+        <nav class="nav">
+            <div class="menu">
+                <ul>
+                    <li class=" current "><a href="/" >首页</a> </li>
+                                                            <li class="common "><a href="http://www.phpcmsv9.cc:8008/shenghuo/" >生活</a>
+                                                                        <ul style="display:none">
+                                                                            </ul>
+                                                                <li class="common "><a href="http://www.phpcmsv9.cc:8008/xinwen/" >新闻</a>
+                                                                        <ul style="display:none">
+                                                                            </ul>
+                                                                                </ul>
+            </div>
+        </nav>
+        <div class="clear"></div>
     </div>
 </header>
-<div id="wrap">
-  <div class="wrap container">
-    <div class="main">
-      <div class="slider-wrap clearfix">
-        <div class="main-slider wpcom-slider swiper-container pull-left">
-          <ul class="swiper-wrapper">
 
-                                          <li class="swiper-slide">
-                  <a href="http://phpcmsv9.cc:8008/zixun/20220622/3.html" target="_blank"><img src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622102501506.jpg" alt="画面莫名喜感 交警巡查拿下一车"></a>
-                  <h3 class="slide-title"><a href="http://phpcmsv9.cc:8008/zixun/20220622/3.html" target="_blank">画面莫名喜感 交警巡查拿下一车</a></h3>
-              </li>
-                            <li class="swiper-slide">
-                  <a href="http://phpcmsv9.cc:8008/zixun/20220622/2.html" target="_blank"><img src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622102425342.jpg" alt="新春走基层]冬闲种大棚 蘑菇撑起“致富伞"></a>
-                  <h3 class="slide-title"><a href="http://phpcmsv9.cc:8008/zixun/20220622/2.html" target="_blank">新春走基层]冬闲种大棚 蘑菇撑起“致富伞</a></h3>
-              </li>
-                            <li class="swiper-slide">
-                  <a href="http://phpcmsv9.cc:8008/zixun/20220622/1.html" target="_blank"><img src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622102346562.jpg" alt="北京首次抽检京Ⅵ汽油 存质量问题将被调查和处"></a>
-                  <h3 class="slide-title"><a href="http://phpcmsv9.cc:8008/zixun/20220622/1.html" target="_blank">北京首次抽检京Ⅵ汽油 存质量问题将被调查和处</a></h3>
-              </li>
-                            
-          </ul>
-          <!-- Add Pagination -->
-          <div class="swiper-pagination"></div>
-          <!-- Add Navigation -->
-          <div class="swiper-button-prev swiper-button-white"></div>
-          <div class="swiper-button-next swiper-button-white"></div>
+<!--搜索-->
+<div class="search-bg" >
+    <div class="inner">
+        <div class="search-form">
+            <form name="formsearch" method="post" action="">
+                <input type="hidden" name="kwtype" value="0" />
+                <input type="text" class="s" name="q" id="q" value="" placeholder="输入关键词搜索..."/>
+                <button type="submit" name="s"><i class="icon-search"></i></button>
+            </form>
         </div>
-
-        <ul class="feature-post pull-right">
+        <div class="tagscloud"> <span>快捷搜索：</span>   </div>
+    </div>
+</div>
+<div class="blank"></div>
+<div class="inner container">
+  <main class="main">
+    <div class="focus wow fadeIn">
+      <div class="flexslider">
+        <ul class="slides">
                                     <li>
-                <a href="http://phpcmsv9.cc:8008/zixun/20220622/10.html" target="_blank">
-                <img class="j-lazy" src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110332937.jpg" data-original="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110332937.jpg" alt="头条新闻头条新闻头条新闻头条新闻">
+                <a href="" title="画面莫名喜感 交警巡查拿下一车">
+                    <img src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/20220622102501506.jpg" alt="画面莫名喜感 交警巡查拿下一车"/>
+                    <p class="flex-caption">画面莫名喜感 交警巡查拿下一车</p>
                 </a>
-                <span>头条新闻头条新闻头条新闻头条新闻</span>
             </li>
                         <li>
-                <a href="http://phpcmsv9.cc:8008/zixun/20220622/9.html" target="_blank">
-                <img class="j-lazy" src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110300398.jpg" data-original="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110300398.jpg" alt="美皮划艇爱好者浑身挂满LED灯激流勇进">
+                <a href="" title="新春走基层]冬闲种大棚 蘑菇撑起“致富伞">
+                    <img src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/20220622102425342.jpg" alt="新春走基层]冬闲种大棚 蘑菇撑起“致富伞"/>
+                    <p class="flex-caption">新春走基层]冬闲种大棚 蘑菇撑起“致富伞</p>
                 </a>
-                <span>美皮划艇爱好者浑身挂满LED灯激流勇进</span>
             </li>
                         <li>
-                <a href="http://phpcmsv9.cc:8008/zixun/20220622/8.html" target="_blank">
-                <img class="j-lazy" src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110230572.jpg" data-original="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110230572.jpg" alt="成都“网红池”捞出数千硬币">
+                <a href="" title="北京首次抽检京Ⅵ汽油 存质量问题将被调查和处">
+                    <img src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/20220622102346562.jpg" alt="北京首次抽检京Ⅵ汽油 存质量问题将被调查和处"/>
+                    <p class="flex-caption">北京首次抽检京Ⅵ汽油 存质量问题将被调查和处</p>
                 </a>
-                <span>成都“网红池”捞出数千硬币</span>
             </li>
                                 </ul>
-
-      </div>
-
-      <div class="sec-panel main-list">
-        <div class="sec-panel-head">
-          <ul class="list tabs j-newslist">
-            <li class="tab active"><a data-id="0" href="javascript:;">最新文章</a></li>
-                                          <li class="tab"><a href="javascript:;">生活</a></li>
-                            <li class="tab"><a href="javascript:;">资讯</a></li>
-                            <li class="tab"><a href="javascript:;">茶</a></li>
-                                      </ul>
-        </div>
-
-        <ul class="post-loop post-loop-default tab-wrap clearfix active">
-                                                                                                <li class="item">
-                <div class="item-img">
-                    <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/12.html" title="测试测试" target="_blank">
-                    <img class="j-lazy" src="http://phpcmsv9.cc:8008/statics/images/nopic.gif" data-original="http://phpcmsv9.cc:8008/statics/images/nopic.gif" width="480" height="300" alt="测试测试">
-                    </a>
-                    <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                <div class="item-content">
-                    <h2 class="item-title">
-                        <a href="http://phpcmsv9.cc:8008/zixun/20220622/12.html" title="测试测试" target="_blank"> 测试测试 </a>
-                    </h2>
-                    <div class="item-excerpt">
-                        <p>&nbsp;  sdfdsfdsfdsfds...</p>
-                    </div>
-                    <div class="item-meta">
-                        <span class="item-meta-li date"></span>
-                        <span class="item-meta-li views" title="测试测试">
-                            <i class="fa fa-eye"></i> 28                        </span>
-                    </div>
-                </div>
-            </li>
-                                                                        <li class="item">
-                <div class="item-img">
-                    <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/11.html" title="测试测试" target="_blank">
-                    <img class="j-lazy" src="http://phpcmsv9.cc:8008/statics/images/nopic.gif" data-original="http://phpcmsv9.cc:8008/statics/images/nopic.gif" width="480" height="300" alt="测试测试">
-                    </a>
-                    <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                <div class="item-content">
-                    <h2 class="item-title">
-                        <a href="http://phpcmsv9.cc:8008/zixun/20220622/11.html" title="测试测试" target="_blank"> 测试测试 </a>
-                    </h2>
-                    <div class="item-excerpt">
-                        <p>&nbsp;  ssss水水水水水水水水水水水...</p>
-                    </div>
-                    <div class="item-meta">
-                        <span class="item-meta-li date"></span>
-                        <span class="item-meta-li views" title="测试测试">
-                            <i class="fa fa-eye"></i> 11                        </span>
-                    </div>
-                </div>
-            </li>
-                                                                        <li class="item">
-                <div class="item-img">
-                    <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/10.html" title="头条新闻头条新闻头条新闻头条新闻" target="_blank">
-                    <img class="j-lazy" src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110332937.jpg" data-original="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110332937.jpg" width="480" height="300" alt="头条新闻头条新闻头条新闻头条新闻">
-                    </a>
-                    <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                <div class="item-content">
-                    <h2 class="item-title">
-                        <a href="http://phpcmsv9.cc:8008/zixun/20220622/10.html" title="头条新闻头条新闻头条新闻头条新闻" target="_blank"> 头条新闻头条新闻头条新闻头条新闻 </a>
-                    </h2>
-                    <div class="item-excerpt">
-                        <p>&nbsp;  头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻...</p>
-                    </div>
-                    <div class="item-meta">
-                        <span class="item-meta-li date"></span>
-                        <span class="item-meta-li views" title="头条新闻头条新闻头条新闻头条新闻">
-                            <i class="fa fa-eye"></i> 70                        </span>
-                    </div>
-                </div>
-            </li>
-                                                                        <li class="item">
-                <div class="item-img">
-                    <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/9.html" title="美皮划艇爱好者浑身挂满LED灯激流勇进" target="_blank">
-                    <img class="j-lazy" src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110300398.jpg" data-original="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110300398.jpg" width="480" height="300" alt="美皮划艇爱好者浑身挂满LED灯激流勇进">
-                    </a>
-                    <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                <div class="item-content">
-                    <h2 class="item-title">
-                        <a href="http://phpcmsv9.cc:8008/zixun/20220622/9.html" title="美皮划艇爱好者浑身挂满LED灯激流勇进" target="_blank"> 美皮划艇爱好者浑身挂满LED灯激流勇进 </a>
-                    </h2>
-                    <div class="item-excerpt">
-                        <p>&nbsp;  美皮划艇爱好者浑身挂满LED灯激流勇进美皮划艇爱好者浑身挂满LED灯激流勇进美皮划艇爱好者浑身挂满LED灯激流勇进美皮划艇爱好者浑身挂满LED   ...</p>
-                    </div>
-                    <div class="item-meta">
-                        <span class="item-meta-li date"></span>
-                        <span class="item-meta-li views" title="美皮划艇爱好者浑身挂满LED灯激流勇进">
-                            <i class="fa fa-eye"></i> 25                        </span>
-                    </div>
-                </div>
-            </li>
-                                                                        <li class="item">
-                <div class="item-img">
-                    <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/8.html" title="成都“网红池”捞出数千硬币" target="_blank">
-                    <img class="j-lazy" src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110230572.jpg" data-original="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110230572.jpg" width="480" height="300" alt="成都“网红池”捞出数千硬币">
-                    </a>
-                    <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                <div class="item-content">
-                    <h2 class="item-title">
-                        <a href="http://phpcmsv9.cc:8008/zixun/20220622/8.html" title="成都“网红池”捞出数千硬币" target="_blank"> 成都“网红池”捞出数千硬币 </a>
-                    </h2>
-                    <div class="item-excerpt">
-                        <p>&nbsp;  成都网红池捞出数千硬币成都网红池捞出数千硬币成都网红池捞出数千硬币成都网红池捞出数千硬币成都网红池捞出数千硬币...</p>
-                    </div>
-                    <div class="item-meta">
-                        <span class="item-meta-li date"></span>
-                        <span class="item-meta-li views" title="成都“网红池”捞出数千硬币">
-                            <i class="fa fa-eye"></i> 15                        </span>
-                    </div>
-                </div>
-            </li>
-                                                                        <li class="item">
-                <div class="item-img">
-                    <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/7.html" title="热点新闻系列" target="_blank">
-                    <img class="j-lazy" src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622105629723.jpg" data-original="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622105629723.jpg" width="480" height="300" alt="热点新闻系列">
-                    </a>
-                    <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                <div class="item-content">
-                    <h2 class="item-title">
-                        <a href="http://phpcmsv9.cc:8008/zixun/20220622/7.html" title="热点新闻系列" target="_blank"> 热点新闻系列 </a>
-                    </h2>
-                    <div class="item-excerpt">
-                        <p>&nbsp;  热点新闻系列热点新闻系列热点新闻系列热点新闻系列热点新闻系列热点新闻系列...</p>
-                    </div>
-                    <div class="item-meta">
-                        <span class="item-meta-li date"></span>
-                        <span class="item-meta-li views" title="热点新闻系列">
-                            <i class="fa fa-eye"></i> 3                        </span>
-                    </div>
-                </div>
-            </li>
-                                                                        <li class="item">
-                <div class="item-img">
-                    <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/6.html" title="头条新闻栏目" target="_blank">
-                    <img class="j-lazy" src="http://phpcmsv9.cc:8008/statics/images/nopic.gif" data-original="http://phpcmsv9.cc:8008/statics/images/nopic.gif" width="480" height="300" alt="头条新闻栏目">
-                    </a>
-                    <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                <div class="item-content">
-                    <h2 class="item-title">
-                        <a href="http://phpcmsv9.cc:8008/zixun/20220622/6.html" title="头条新闻栏目" target="_blank"> 头条新闻栏目 </a>
-                    </h2>
-                    <div class="item-excerpt">
-                        <p>&nbsp;  头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列   ...</p>
-                    </div>
-                    <div class="item-meta">
-                        <span class="item-meta-li date"></span>
-                        <span class="item-meta-li views" title="头条新闻栏目">
-                            <i class="fa fa-eye"></i> 2                        </span>
-                    </div>
-                </div>
-            </li>
-                                                                        <li class="item">
-                <div class="item-img">
-                    <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/5.html" title="头条新闻栏目的热点新闻系列" target="_blank">
-                    <img class="j-lazy" src="http://phpcmsv9.cc:8008/statics/images/nopic.gif" data-original="http://phpcmsv9.cc:8008/statics/images/nopic.gif" width="480" height="300" alt="头条新闻栏目的热点新闻系列">
-                    </a>
-                    <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                <div class="item-content">
-                    <h2 class="item-title">
-                        <a href="http://phpcmsv9.cc:8008/zixun/20220622/5.html" title="头条新闻栏目的热点新闻系列" target="_blank"> 头条新闻栏目的热点新闻系列 </a>
-                    </h2>
-                    <div class="item-excerpt">
-                        <p>&nbsp;  头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列...</p>
-                    </div>
-                    <div class="item-meta">
-                        <span class="item-meta-li date"></span>
-                        <span class="item-meta-li views" title="头条新闻栏目的热点新闻系列">
-                            <i class="fa fa-eye"></i> 24                        </span>
-                    </div>
-                </div>
-            </li>
-                                                                        <li class="item">
-                <div class="item-img">
-                    <a class="item-img-inner" href="http://phpcmsv9.cc:8008/cha/20220622/4.html" title="[网络媒体走转改]景德镇行政服务中心" target="_blank">
-                    <img class="j-lazy" src="http://phpcmsv9.cc:8008/statics/images/nopic.gif" data-original="http://phpcmsv9.cc:8008/statics/images/nopic.gif" width="480" height="300" alt="[网络媒体走转改]景德镇行政服务中心">
-                    </a>
-                    <a class="item-category" href="http://phpcmsv9.cc:8008/cha/" target="_blank">茶</a> </div>
-                <div class="item-content">
-                    <h2 class="item-title">
-                        <a href="http://phpcmsv9.cc:8008/cha/20220622/4.html" title="[网络媒体走转改]景德镇行政服务中心" target="_blank"> [网络媒体走转改]景德镇行政服务中心 </a>
-                    </h2>
-                    <div class="item-excerpt">
-                        <p>&nbsp;  头条新闻栏目的热点新闻系列,[网络媒体走转改]景德镇行政服务中心：忙而不乱...</p>
-                    </div>
-                    <div class="item-meta">
-                        <span class="item-meta-li date"></span>
-                        <span class="item-meta-li views" title="[网络媒体走转改]景德镇行政服务中心">
-                            <i class="fa fa-eye"></i> 26                        </span>
-                    </div>
-                </div>
-            </li>
-                                                                        <li class="item">
-                <div class="item-img">
-                    <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/3.html" title="画面莫名喜感 交警巡查拿下一车" target="_blank">
-                    <img class="j-lazy" src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622102501506.jpg" data-original="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622102501506.jpg" width="480" height="300" alt="画面莫名喜感 交警巡查拿下一车">
-                    </a>
-                    <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                <div class="item-content">
-                    <h2 class="item-title">
-                        <a href="http://phpcmsv9.cc:8008/zixun/20220622/3.html" title="画面莫名喜感 交警巡查拿下一车" target="_blank"> 画面莫名喜感 交警巡查拿下一车 </a>
-                    </h2>
-                    <div class="item-excerpt">
-                        <p>&nbsp;  画面莫名喜感 交警巡查拿下一车画面莫名喜感 交警巡查拿下一车画面莫名喜感 交警巡查拿下一车画面莫名喜感 交警巡查拿下一车画面莫名喜   ...</p>
-                    </div>
-                    <div class="item-meta">
-                        <span class="item-meta-li date"></span>
-                        <span class="item-meta-li views" title="画面莫名喜感 交警巡查拿下一车">
-                            <i class="fa fa-eye"></i> 1                        </span>
-                    </div>
-                </div>
-            </li>
-                                </ul>
-
-                              <ul class="post-loop post-loop-default tab-wrap clearfix">
-                                                                                                                <li class="item">
-                  <div class="item-img">
-                      <a class="item-img-inner" href="http://phpcmsv9.cc:8008/shenghuo/20220624/13.html" title="生活 生活 生活 生活 生活 " target="_blank">
-                          <img class="j-lazy" src="http://phpcmsv9.cc:8008/statics/images/nopic.gif" data-original="http://phpcmsv9.cc:8008/statics/images/nopic.gif" width="480" height="300" alt="生活 生活 生活 生活 生活 ">
-                      </a>
-                      <a class="item-category" href="http://phpcmsv9.cc:8008/shenghuo/" target="_blank">生活</a> </div>
-                  <div class="item-content">
-                      <h2 class="item-title">
-                          <a href="http://phpcmsv9.cc:8008/shenghuo/20220624/13.html" title="生活 生活 生活 生活 生活 " target="_blank"> 生活 生活 生活 生活 生活  </a>
-                      </h2>
-                      <div class="item-excerpt">
-                          <p>&nbsp;  生活生活生活生活生活...</p>
-                      </div>
-                      <div class="item-meta">
-                          <span class="item-meta-li date"></span>
-                          <span class="item-meta-li views" title="生活 生活 生活 生活 生活 ">
-                            <i class="fa fa-eye"></i> 0                        </span>
-                      </div>
-                  </div>
-              </li>
-                                      </ul>
-                    <ul class="post-loop post-loop-default tab-wrap clearfix">
-                                                                                                                <li class="item">
-                  <div class="item-img">
-                      <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/12.html" title="测试测试" target="_blank">
-                          <img class="j-lazy" src="http://phpcmsv9.cc:8008/statics/images/nopic.gif" data-original="http://phpcmsv9.cc:8008/statics/images/nopic.gif" width="480" height="300" alt="测试测试">
-                      </a>
-                      <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                  <div class="item-content">
-                      <h2 class="item-title">
-                          <a href="http://phpcmsv9.cc:8008/zixun/20220622/12.html" title="测试测试" target="_blank"> 测试测试 </a>
-                      </h2>
-                      <div class="item-excerpt">
-                          <p>&nbsp;  sdfdsfdsfdsfds...</p>
-                      </div>
-                      <div class="item-meta">
-                          <span class="item-meta-li date"></span>
-                          <span class="item-meta-li views" title="测试测试">
-                            <i class="fa fa-eye"></i> 28                        </span>
-                      </div>
-                  </div>
-              </li>
-                                                                                    <li class="item">
-                  <div class="item-img">
-                      <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/11.html" title="测试测试" target="_blank">
-                          <img class="j-lazy" src="http://phpcmsv9.cc:8008/statics/images/nopic.gif" data-original="http://phpcmsv9.cc:8008/statics/images/nopic.gif" width="480" height="300" alt="测试测试">
-                      </a>
-                      <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                  <div class="item-content">
-                      <h2 class="item-title">
-                          <a href="http://phpcmsv9.cc:8008/zixun/20220622/11.html" title="测试测试" target="_blank"> 测试测试 </a>
-                      </h2>
-                      <div class="item-excerpt">
-                          <p>&nbsp;  ssss水水水水水水水水水水水...</p>
-                      </div>
-                      <div class="item-meta">
-                          <span class="item-meta-li date"></span>
-                          <span class="item-meta-li views" title="测试测试">
-                            <i class="fa fa-eye"></i> 11                        </span>
-                      </div>
-                  </div>
-              </li>
-                                                                                    <li class="item">
-                  <div class="item-img">
-                      <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/10.html" title="头条新闻头条新闻头条新闻头条新闻" target="_blank">
-                          <img class="j-lazy" src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110332937.jpg" data-original="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110332937.jpg" width="480" height="300" alt="头条新闻头条新闻头条新闻头条新闻">
-                      </a>
-                      <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                  <div class="item-content">
-                      <h2 class="item-title">
-                          <a href="http://phpcmsv9.cc:8008/zixun/20220622/10.html" title="头条新闻头条新闻头条新闻头条新闻" target="_blank"> 头条新闻头条新闻头条新闻头条新闻 </a>
-                      </h2>
-                      <div class="item-excerpt">
-                          <p>&nbsp;  头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻...</p>
-                      </div>
-                      <div class="item-meta">
-                          <span class="item-meta-li date"></span>
-                          <span class="item-meta-li views" title="头条新闻头条新闻头条新闻头条新闻">
-                            <i class="fa fa-eye"></i> 70                        </span>
-                      </div>
-                  </div>
-              </li>
-                                                                                    <li class="item">
-                  <div class="item-img">
-                      <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/9.html" title="美皮划艇爱好者浑身挂满LED灯激流勇进" target="_blank">
-                          <img class="j-lazy" src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110300398.jpg" data-original="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110300398.jpg" width="480" height="300" alt="美皮划艇爱好者浑身挂满LED灯激流勇进">
-                      </a>
-                      <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                  <div class="item-content">
-                      <h2 class="item-title">
-                          <a href="http://phpcmsv9.cc:8008/zixun/20220622/9.html" title="美皮划艇爱好者浑身挂满LED灯激流勇进" target="_blank"> 美皮划艇爱好者浑身挂满LED灯激流勇进 </a>
-                      </h2>
-                      <div class="item-excerpt">
-                          <p>&nbsp;  美皮划艇爱好者浑身挂满LED灯激流勇进美皮划艇爱好者浑身挂满LED灯激流勇进美皮划艇爱好者浑身挂满LED灯激流勇进美皮划艇爱好者浑身挂满LED   ...</p>
-                      </div>
-                      <div class="item-meta">
-                          <span class="item-meta-li date"></span>
-                          <span class="item-meta-li views" title="美皮划艇爱好者浑身挂满LED灯激流勇进">
-                            <i class="fa fa-eye"></i> 25                        </span>
-                      </div>
-                  </div>
-              </li>
-                                                                                    <li class="item">
-                  <div class="item-img">
-                      <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/8.html" title="成都“网红池”捞出数千硬币" target="_blank">
-                          <img class="j-lazy" src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110230572.jpg" data-original="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622110230572.jpg" width="480" height="300" alt="成都“网红池”捞出数千硬币">
-                      </a>
-                      <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                  <div class="item-content">
-                      <h2 class="item-title">
-                          <a href="http://phpcmsv9.cc:8008/zixun/20220622/8.html" title="成都“网红池”捞出数千硬币" target="_blank"> 成都“网红池”捞出数千硬币 </a>
-                      </h2>
-                      <div class="item-excerpt">
-                          <p>&nbsp;  成都网红池捞出数千硬币成都网红池捞出数千硬币成都网红池捞出数千硬币成都网红池捞出数千硬币成都网红池捞出数千硬币...</p>
-                      </div>
-                      <div class="item-meta">
-                          <span class="item-meta-li date"></span>
-                          <span class="item-meta-li views" title="成都“网红池”捞出数千硬币">
-                            <i class="fa fa-eye"></i> 15                        </span>
-                      </div>
-                  </div>
-              </li>
-                                                                                    <li class="item">
-                  <div class="item-img">
-                      <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/7.html" title="热点新闻系列" target="_blank">
-                          <img class="j-lazy" src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622105629723.jpg" data-original="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622105629723.jpg" width="480" height="300" alt="热点新闻系列">
-                      </a>
-                      <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                  <div class="item-content">
-                      <h2 class="item-title">
-                          <a href="http://phpcmsv9.cc:8008/zixun/20220622/7.html" title="热点新闻系列" target="_blank"> 热点新闻系列 </a>
-                      </h2>
-                      <div class="item-excerpt">
-                          <p>&nbsp;  热点新闻系列热点新闻系列热点新闻系列热点新闻系列热点新闻系列热点新闻系列...</p>
-                      </div>
-                      <div class="item-meta">
-                          <span class="item-meta-li date"></span>
-                          <span class="item-meta-li views" title="热点新闻系列">
-                            <i class="fa fa-eye"></i> 3                        </span>
-                      </div>
-                  </div>
-              </li>
-                                                                                    <li class="item">
-                  <div class="item-img">
-                      <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/6.html" title="头条新闻栏目" target="_blank">
-                          <img class="j-lazy" src="http://phpcmsv9.cc:8008/statics/images/nopic.gif" data-original="http://phpcmsv9.cc:8008/statics/images/nopic.gif" width="480" height="300" alt="头条新闻栏目">
-                      </a>
-                      <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                  <div class="item-content">
-                      <h2 class="item-title">
-                          <a href="http://phpcmsv9.cc:8008/zixun/20220622/6.html" title="头条新闻栏目" target="_blank"> 头条新闻栏目 </a>
-                      </h2>
-                      <div class="item-excerpt">
-                          <p>&nbsp;  头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列   ...</p>
-                      </div>
-                      <div class="item-meta">
-                          <span class="item-meta-li date"></span>
-                          <span class="item-meta-li views" title="头条新闻栏目">
-                            <i class="fa fa-eye"></i> 2                        </span>
-                      </div>
-                  </div>
-              </li>
-                                                                                    <li class="item">
-                  <div class="item-img">
-                      <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/5.html" title="头条新闻栏目的热点新闻系列" target="_blank">
-                          <img class="j-lazy" src="http://phpcmsv9.cc:8008/statics/images/nopic.gif" data-original="http://phpcmsv9.cc:8008/statics/images/nopic.gif" width="480" height="300" alt="头条新闻栏目的热点新闻系列">
-                      </a>
-                      <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                  <div class="item-content">
-                      <h2 class="item-title">
-                          <a href="http://phpcmsv9.cc:8008/zixun/20220622/5.html" title="头条新闻栏目的热点新闻系列" target="_blank"> 头条新闻栏目的热点新闻系列 </a>
-                      </h2>
-                      <div class="item-excerpt">
-                          <p>&nbsp;  头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列...</p>
-                      </div>
-                      <div class="item-meta">
-                          <span class="item-meta-li date"></span>
-                          <span class="item-meta-li views" title="头条新闻栏目的热点新闻系列">
-                            <i class="fa fa-eye"></i> 24                        </span>
-                      </div>
-                  </div>
-              </li>
-                                                                                    <li class="item">
-                  <div class="item-img">
-                      <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/3.html" title="画面莫名喜感 交警巡查拿下一车" target="_blank">
-                          <img class="j-lazy" src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622102501506.jpg" data-original="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622102501506.jpg" width="480" height="300" alt="画面莫名喜感 交警巡查拿下一车">
-                      </a>
-                      <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                  <div class="item-content">
-                      <h2 class="item-title">
-                          <a href="http://phpcmsv9.cc:8008/zixun/20220622/3.html" title="画面莫名喜感 交警巡查拿下一车" target="_blank"> 画面莫名喜感 交警巡查拿下一车 </a>
-                      </h2>
-                      <div class="item-excerpt">
-                          <p>&nbsp;  画面莫名喜感 交警巡查拿下一车画面莫名喜感 交警巡查拿下一车画面莫名喜感 交警巡查拿下一车画面莫名喜感 交警巡查拿下一车画面莫名喜   ...</p>
-                      </div>
-                      <div class="item-meta">
-                          <span class="item-meta-li date"></span>
-                          <span class="item-meta-li views" title="画面莫名喜感 交警巡查拿下一车">
-                            <i class="fa fa-eye"></i> 1                        </span>
-                      </div>
-                  </div>
-              </li>
-                                                                                    <li class="item">
-                  <div class="item-img">
-                      <a class="item-img-inner" href="http://phpcmsv9.cc:8008/zixun/20220622/2.html" title="新春走基层]冬闲种大棚 蘑菇撑起“致富伞" target="_blank">
-                          <img class="j-lazy" src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622102425342.jpg" data-original="http://phpcmsv9.cc:8008/uploadfile/2022/0622/thumb_100_100_20220622102425342.jpg" width="480" height="300" alt="新春走基层]冬闲种大棚 蘑菇撑起“致富伞">
-                      </a>
-                      <a class="item-category" href="http://phpcmsv9.cc:8008/zixun/" target="_blank">资讯</a> </div>
-                  <div class="item-content">
-                      <h2 class="item-title">
-                          <a href="http://phpcmsv9.cc:8008/zixun/20220622/2.html" title="新春走基层]冬闲种大棚 蘑菇撑起“致富伞" target="_blank"> 新春走基层]冬闲种大棚 蘑菇撑起“致富伞 </a>
-                      </h2>
-                      <div class="item-excerpt">
-                          <p>&nbsp;  新春走基层]冬闲种大棚 蘑菇撑起致富伞新春走基层]冬闲种大棚 蘑菇撑起致富伞新春走基层]冬闲种大棚 蘑菇撑起致富伞新春走基层]冬闲种大   ...</p>
-                      </div>
-                      <div class="item-meta">
-                          <span class="item-meta-li date"></span>
-                          <span class="item-meta-li views" title="新春走基层]冬闲种大棚 蘑菇撑起“致富伞">
-                            <i class="fa fa-eye"></i> 9                        </span>
-                      </div>
-                  </div>
-              </li>
-                                      </ul>
-                    <ul class="post-loop post-loop-default tab-wrap clearfix">
-                                                                                                                <li class="item">
-                  <div class="item-img">
-                      <a class="item-img-inner" href="http://phpcmsv9.cc:8008/cha/20220622/4.html" title="[网络媒体走转改]景德镇行政服务中心" target="_blank">
-                          <img class="j-lazy" src="http://phpcmsv9.cc:8008/statics/images/nopic.gif" data-original="http://phpcmsv9.cc:8008/statics/images/nopic.gif" width="480" height="300" alt="[网络媒体走转改]景德镇行政服务中心">
-                      </a>
-                      <a class="item-category" href="http://phpcmsv9.cc:8008/cha/" target="_blank">茶</a> </div>
-                  <div class="item-content">
-                      <h2 class="item-title">
-                          <a href="http://phpcmsv9.cc:8008/cha/20220622/4.html" title="[网络媒体走转改]景德镇行政服务中心" target="_blank"> [网络媒体走转改]景德镇行政服务中心 </a>
-                      </h2>
-                      <div class="item-excerpt">
-                          <p>&nbsp;  头条新闻栏目的热点新闻系列,[网络媒体走转改]景德镇行政服务中心：忙而不乱...</p>
-                      </div>
-                      <div class="item-meta">
-                          <span class="item-meta-li date"></span>
-                          <span class="item-meta-li views" title="[网络媒体走转改]景德镇行政服务中心">
-                            <i class="fa fa-eye"></i> 26                        </span>
-                      </div>
-                  </div>
-              </li>
-                                      </ul>
-                    
       </div>
     </div>
-
+    <section class="top wow fadeIn">
+      <h3>头条推荐</h3>
+      <ul>
+                              <li>
+              <h4><a href="" title="头条新闻栏目">头条新闻栏目</a></h4>
+              <p>头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列   ...</p>
+          </li>
+                    <li>
+              <h4><a href="" title="头条新闻栏目的热点新闻系列">头条新闻栏目的热点新闻系列</a></h4>
+              <p>头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列头条新闻栏目的热点新闻系列...</p>
+          </li>
+                    <li>
+              <h4><a href="" title="[网络媒体走转改]景德镇行政服务中心">[网络媒体走转改]景德镇行政服务中心</a></h4>
+              <p>头条新闻栏目的热点新闻系列,[网络媒体走转改]景德镇行政服务中心：忙而不乱...</p>
+          </li>
+                          </ul>
+    </section>
+    <div class="clear"></div>
+    <section class="hots wow fadeInUp">
+      <div class="section-title">
+        <h3>人气推荐</h3>
+      </div>
+      <ul>
+                              <li>
+              <div class="thumbnail"> <a href="" title="头条新闻头条新闻头条新闻头条新闻">
+                  <img src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/20220622110332937.jpg" alt="头条新闻头条新闻头条新闻头条新闻"/></a>
+              </div>
+              <h4><a href="" title="头条新闻头条新闻头条新闻头条新闻">头条新闻头条新闻头条新闻头条新闻</a></h4>
+              <p> 头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻头条新闻...</p>
+          </li>
+                    <li>
+              <div class="thumbnail"> <a href="" title="美皮划艇爱好者浑身挂满LED灯激流勇进">
+                  <img src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/20220622110300398.jpg" alt="美皮划艇爱好者浑身挂满LED灯激流勇进"/></a>
+              </div>
+              <h4><a href="" title="美皮划艇爱好者浑身挂满LED灯激流勇进">美皮划艇爱好者浑身挂满LED灯激流勇进</a></h4>
+              <p> 美皮划艇爱好者浑身挂满LED灯激流勇进美皮划艇爱好者浑身挂满LED灯激流勇进美皮划艇爱好者浑身挂满LED灯激流勇进美皮划艇爱好者浑身挂满LED   ...</p>
+          </li>
+                    <li>
+              <div class="thumbnail"> <a href="" title="成都“网红池”捞出数千硬币">
+                  <img src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/20220622110230572.jpg" alt="成都“网红池”捞出数千硬币"/></a>
+              </div>
+              <h4><a href="" title="成都“网红池”捞出数千硬币">成都“网红池”捞出数千硬币</a></h4>
+              <p> 成都网红池捞出数千硬币成都网红池捞出数千硬币成都网红池捞出数千硬币成都网红池捞出数千硬币成都网红池捞出数千硬币...</p>
+          </li>
+                    <li>
+              <div class="thumbnail"> <a href="" title="热点新闻系列">
+                  <img src="http://phpcmsv9.cc:8008/uploadfile/2022/0622/20220622105629723.jpg" alt="热点新闻系列"/></a>
+              </div>
+              <h4><a href="" title="热点新闻系列">热点新闻系列</a></h4>
+              <p> 热点新闻系列热点新闻系列热点新闻系列热点新闻系列热点新闻系列热点新闻系列...</p>
+          </li>
+                          </ul>
+    </section>
+    <div class="mainad wow fadeIn"> </div>
+    <div class="content">
+      <div class="section-title">
+        <h3>最新资讯</h3>
+      </div>
+                          <section class="section wow fadeIn">
+            <div class="thumbnail">
+                <a href="http://www.phpcmsv9.cc:8008/shenghuo/20220628/17.html" title="水水水水水水水水水水" target="_blank"><img src="http://www.phpcmsv9.cc:8008/statics/images/nopic.gif" alt="水水水水水水水水水水"/></a>
+            </div>
+            <h2><a href="http://www.phpcmsv9.cc:8008/shenghuo/20220628/17.html" title="水水水水水水水水水水" target="_blank">水水水水水水水水水水</a></h2>
+            <div class="postmeta">
+                <span><i class="icon-user-circle-o"></i> <a>admin</a></span>
+                <span><i class="icon-calendar"></i> <time>2022-06-28</time></span>
+<!--                <span><i class="icon-eye"></i> </span>-->
+            </div>
+            <div class="excerpt">
+              <p> 水水水水水水水水水水水...</p>
+            </div>
+          </section>
+                    </div>
+  </main>
   <aside class="sidebar">
-
-      <div id="wpcom-post-thumb-2" class="widget widget_post_thumb">
-        <h3 class="widget-title">热门文章</h3>
+    <section class="widget wow fadeInUp">
+      <div class="section-title">
+        <h3>热门文章</h3>
+      </div>
         <ul>
-            {dede:arclist row='3' titlelen='80' typeid='top' orderby='click'}
-            <li class="item">
-                <div class="item-img"> <a class="item-img-inner" href="http://phpcmsv9.cc:8008/cha/20220622/4.html" title="[网络媒体走转改]景德镇行政服务中心"> <img class="j-lazy" src="http://phpcmsv9.cc:8008/statics/images/nopic.gif" data-original="http://phpcmsv9.cc:8008/statics/images/nopic.gif" width="480" height="300" alt="[网络媒体走转改]景德镇行政服务中心"> </a> </div>
-                <div class="item-content">
-                    <p class="item-title"><a href="http://phpcmsv9.cc:8008/cha/20220622/4.html" title="[网络媒体走转改]景德镇行政服务中心">[网络媒体走转改]景德镇行政服务中心</a></p>
-                    <p class="item-date">[field:pubdate function="MyDate('Y年m月d日',@me)"/]</p>
-                </div>
-            </li>
-            {/dede:arclist}
-
-        </ul>
+                                    <li> <i class="a1">1</i> <a href="http://www.phpcmsv9.cc:8008/shenghuo/20220628/17.html" title="水水水水水水水水水水" target="_blank">水水水水水水水水水水</a> </li>
+                        <li> <i class="a2">2</i> <a href="http://www.phpcmsv9.cc:8008/xinwen/20220628/18.html" title="嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻" target="_blank">嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻</a> </li>
+                              </ul>
+    </section>
+    <section class="widget theme-widget wow fadeInUp">
+      <div class="section-title">
+        <h3>随机文章</h3>
       </div>
+      <ul>
 
-      <div id="wpcom-post-thumb-8" class="widget widget_post_thumb">
-        <h3 class="widget-title">推荐文章</h3>
-        <ul>
-            {dede:arclist row='3' titlelen='80' typeid='top' flag='a'}
-            <li class="item">
-                <div class="item-img"> <a class="item-img-inner" href="http://phpcmsv9.cc:8008/cha/20220622/4.html" title="[网络媒体走转改]景德镇行政服务中心"> <img class="j-lazy" src="http://phpcmsv9.cc:8008/statics/images/nopic.gif" data-original="http://phpcmsv9.cc:8008/statics/images/nopic.gif" width="480" height="300" alt="[网络媒体走转改]景德镇行政服务中心"> </a> </div>
-                <div class="item-content">
-                    <p class="item-title"><a href="http://phpcmsv9.cc:8008/cha/20220622/4.html" title="[网络媒体走转改]景德镇行政服务中心">[网络媒体走转改]景德镇行政服务中心</a></p>
-                    <p class="item-date">[field:pubdate function="MyDate('Y年m月d日',@me)"/]</p>
-                </div>
-            </li>
-            {/dede:arclist}
-        </ul>
+                                        <li class="list cur">
+                        <div class="thumbnail"> <a href="http://www.phpcmsv9.cc:8008/shenghuo/20220628/17.html" title="水水水水水水水水水水" target="_blank"><img src="http://www.phpcmsv9.cc:8008/statics/images/nopic.gif"/></a> </div>
+              <p><i class="icon-right-open-mini"></i> <a href="http://www.phpcmsv9.cc:8008/shenghuo/20220628/17.html" title="水水水水水水水水水水" target="_blank">水水水水水水水水水水</a></p>
+          </li>
+                    
+      </ul>
+    </section>
+
+    <!--
+    <div class="widget wow fadeInUp">
+      <div class="section-title">
+        <h3>关注我们</h3>
       </div>
-
-      <div id="wpcom-post-thumb-3" class="widget widget_post_thumb">
-        <h3 class="widget-title">经典文章</h3>
-        <ul>
-            {dede:arclist row='10' titlelen='80' typeid='top'}
-            <li class="item">
-                <div class="item-img"> <a class="item-img-inner" href="http://phpcmsv9.cc:8008/cha/20220622/4.html" title="[网络媒体走转改]景德镇行政服务中心"> <img class="j-lazy" src="http://phpcmsv9.cc:8008/statics/images/nopic.gif" data-original="http://phpcmsv9.cc:8008/statics/images/nopic.gif" width="480" height="300" alt="[网络媒体走转改]景德镇行政服务中心"> </a> </div>
-                <div class="item-content">
-                    <p class="item-title"><a href="http://phpcmsv9.cc:8008/cha/20220622/4.html" title="[网络媒体走转改]景德镇行政服务中心">[网络媒体走转改]景德镇行政服务中心</a></p>
-                    <p class="item-date">[field:pubdate function="MyDate('Y年m月d日',@me)"/]</p>
-                </div>
-            </li>
-            {/dede:arclist}
-        </ul>
-      </div>
-
-    </aside>
-  </div>
-
-  <div class="container hidden-xs j-partner">
-    <div class="sec-panel">
-      <div class="sec-panel-head">
-        <h2><span>友情链接</span></h2>
-      </div>
-      <div class="sec-panel-body">
-        <div class="list list-links">
-                                    <a href='http://www.phpcms.cn' target='_blank'>PHPCMS</a>
-                        <a href='http://www.sdo.com' target='_blank'>盛大在线</a>
-                                </div>
+      <div class="follow">
+        <p> <a href="https://weibo.com/gooxao" target="_blank"><img src="http://www.phpcmsv9.cc:8008//statics/1/images/weibo.jpg" alt="关注微博"/></a> <img src="http://www.phpcmsv9.cc:8008//statics/1/images/weixin.jpg" alt="扫描二维码关注"/> </p>
+        <p>关注官方微博微信有惊喜哦</p>
       </div>
     </div>
-  </div>
-
+    -->
+  </aside>
 </div>
 
+<div class="inner friendlinks wow fadeIn">
+  <div class="section-title"> 友情链接<span>申请要求：同属互联网资讯类网站，并内容充实，无作弊现象。</span> </div>
+  <ul>
+                  <li><a href='http://www.phpcms.cn' target='_blank'>PHPCMS</a> </li>
+            <li><a href='http://www.sdo.com' target='_blank'>盛大在线</a> </li>
+              </ul>
+</div>
+
+<div class="fixed-widget">
+    <ul>
+        <li><i class="icon-up-open"></i></li>
+    </ul>
+</div>
 <footer class="footer">
-    <div class="container">
-        <div class="clearfix">
-            <div class="footer-col footer-col-copy">
-                <div class="copyright">
-                    <p><b>站点声明</b></p>
-                    <p>本站涵盖的内容、图片、视频等模板演示数据，部分未能与原作者取得联系。若涉及版权问题，请联系我们进行删除！谢谢大家！</p>
-                    <p>Copyright &copy; 2015-2022  版权所有&nbsp;|&nbsp;<a href="/" title="PHPCMS演示站" target="_blank"><span style="color:#ff0000;">PHPCMS演示站</span></a>&nbsp;|&nbsp;备案号：<a rel="nofollow" href="http://www.beian.miit.gov.cn/" target="_blank"><span style="color:#3297fc;">苏ICP666888</span></a></p>
-                </div>
-            </div>
-            <div class="footer-col footer-col-sns">
-                <div class="footer-sns"> </div>
-            </div>
-        </div>
+    <div class="inner">
+        <div class="copyright"> Copyright &copy; 2015-2022  版权所有 <a href="/">PHPCMS演示站</a>  </div>
+        <div class="other"> <a rel="external nofollow" href="http://www.miibeian.gov.cn/" target="_blank">苏ICP666888</a> </div>
     </div>
 </footer>
 
-<div class="action" style="top:70%;">
-    <div class="a-box gotop" id="j-top" style="display: none;"></div>
-</div>
-
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+<script>prettyPrint();</script>
 <style>
-    .footer{padding-bottom: 20px;}
+    .copyrights{text-indent:-9999px;height:0;line-height:0;font-size:0;overflow:hidden;}
 </style>
-<script type='text/javascript'>
-    /* <![CDATA[ */
-    var _wpcom_js = {"slide_speed":"4000","video_height":"482","TCaptcha":{"appid":"2003622980"},"errors":{"require":"\u4e0d\u80fd\u4e3a\u7a7a","email":"\u8bf7\u8f93\u5165\u6b63\u786e\u7684\u7535\u5b50\u90ae\u7bb1","pls_enter":"\u8bf7\u8f93\u5165","password":"\u5bc6\u7801\u5fc5\u987b\u4e3a6~32\u4e2a\u5b57\u7b26","passcheck":"\u4e24\u6b21\u5bc6\u7801\u8f93\u5165\u4e0d\u4e00\u81f4","phone":"\u8bf7\u8f93\u5165\u6b63\u786e\u7684\u624b\u673a\u53f7\u7801","sms_code":"\u9a8c\u8bc1\u7801\u9519\u8bef","captcha_verify":"\u8bf7\u70b9\u51fb\u6309\u94ae\u8fdb\u884c\u9a8c\u8bc1","captcha_fail":"\u70b9\u51fb\u9a8c\u8bc1\u5931\u8d25\uff0c\u8bf7\u91cd\u8bd5","nonce":"\u968f\u673a\u6570\u6821\u9a8c\u5931\u8d25","req_error":"\u8bf7\u6c42\u5931\u8d25"}};
-    /* ]]> */
-</script>
-<script type='text/javascript' src='http://phpcmsv9.cc:8008//statics/aslnb/js/main.js'></script>
-<script type='text/javascript' src='http://phpcmsv9.cc:8008//statics/aslnb/js/wp-embed.js'></script></body>
+
+</body>
 </html>

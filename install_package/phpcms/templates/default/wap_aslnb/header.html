@@ -1,0 +1,28 @@
+<header class="header">
+    <div class="container clearfix">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar icon-bar-1"></span>
+                <span class="icon-bar icon-bar-2"></span>
+                <span class="icon-bar icon-bar-3"></span>
+            </button>
+            <h1 class="logo">
+                <a href="/" rel="home">
+                    <img src="{M_APP_PATH}/statics/aslnb/images/logo.png" alt="{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}">
+                </a>
+            </h1>
+        </div>
+        <div class="collapse navbar-collapse">
+            <nav class="navbar-left primary-menu">
+                <ul id="menu" class="nav navbar-nav wpcom-adv-menu">
+                    <li class="menu-item {if $catid==''} active {/if}"><a href="/">首页</a></li>
+                    {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+                    {loop $data $r}
+                    <li class="menu-item {if $catid==$r['catid']} active {/if}"><a href="{str_replace('www.','m.',$r[url])}">{$r[catname]}</a>
+                    {/loop}
+                    {/pc}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>

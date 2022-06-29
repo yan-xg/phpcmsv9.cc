@@ -207,7 +207,14 @@ class index {
 		if(empty($next_page)) {
 			$next_page = array('title'=>L('last_page'), 'thumb'=>IMG_PATH.'nopic_small.gif', 'url'=>'javascript:alert(\''.L('last_page').'\');');
 		}
-		include template('content',$template);
+
+        if(substr($_SERVER['SERVER_NAME'], 0,1) == 'm'){
+            include template('wap',$template);
+
+        }else{
+            include template('content',$template);
+
+        }
 	}
 	//列表页
 	public function lists() {
@@ -279,7 +286,13 @@ class index {
 			$GLOBALS['URL_ARRAY']['categorydir'] = $categorydir;
 			$GLOBALS['URL_ARRAY']['catdir'] = $catdir;
 			$GLOBALS['URL_ARRAY']['catid'] = $catid;
-			include template('content',$template);
+            if(substr($_SERVER['SERVER_NAME'], 0,1) == 'm'){
+                include template('wap',$template);
+
+            }else{
+                include template('content',$template);
+
+            }
 		} else {
 		//单网页
 			$this->page_db = pc_base::load_model('page_model');
@@ -292,7 +305,13 @@ class index {
 			array_shift($arrchild_arr);
 			$keywords = $keywords ? $keywords : $setting['meta_keywords'];
 			$SEO = seo($siteid, 0, $title,$setting['meta_description'],$keywords);
-			include template('content',$template);
+            if(substr($_SERVER['SERVER_NAME'], 0,1) == 'm'){
+                include template('wap',$template);
+
+            }else{
+                include template('content',$template);
+
+            }
 		}
 	}
 	

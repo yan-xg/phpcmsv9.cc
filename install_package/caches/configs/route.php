@@ -22,4 +22,5 @@
  */
 return array(
 	'default'=>array('m'=>'content', 'c'=>'index', 'a'=>'init'),
+	'm.phpcmsv9.cc:8008'=>array('m'=>'wap', 'c'=>'index', 'a'=>'init'),
 );

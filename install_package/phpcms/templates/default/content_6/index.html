@@ -35,7 +35,7 @@
         </div>
       </article>
 
-        {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="10" cache="3600"}
+        {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY inputtime DESC" num="10"}
         {php $categorys = getcache('category_content_'.$siteid,'commons');}
         {loop $data $r}
         {php $category = $categorys[$r[catid]];}

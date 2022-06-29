@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>{$catname}-{$SEO['site_title']}</title>
+  <meta name="keywords" content="{$SEO['keyword']}">
+  <meta name="description" content="{$SEO['description']}">
+  {template "wap","meta"}
+</head>
+<body>
+{template "wap","header"}
+
+<nav class="breadcrumb container"> <a href="{siteurl($siteid)}">主页</a> > {catpos($catid)} </nav>
+<div id="content" class="content container clearfix">
+  <section id="mainbox" class="fl br mb">
+    <div class="new-post">
+      {pc:content action="lists" catid="$catid" num="10" order="id DESC" page="$page"}
+      {php $categorys = getcache('category_content_'.$siteid,'commons');}
+      {loop $data $r}
+      {php $category = $categorys[$r[catid]];}
+      {php $modelid = $category['modelid'];}
+      {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+      {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+      <article class="article-list br mb sb clearfix">
+        <figure class="figure fl"> <a class="thumbnail" href="{str_replace('www.','m.',$r[url])}" title="{$r[title]}"> <img class="img-cover br" src="{thumb($r['thumb'])}" alt="{$r[title]}" title="{$r[title]}"> </a> </figure>
+        <div class="content">
+          <h2 class="title ellipsis m-multi-ellipsis"><a href="{str_replace('www.','m.',$r[url])}" title="{$r[title]}">{$r[title]}</a></h2>
+          <p class="intro hidden-sm">  {$r['description']}... </p>
+          <p class="data clearfix"> <span class="hidden-sm-md-lg author fl"><i class="iconfont icon-user">{$r['username']}</i></span>
+            <time class="time fl" datetime="{date('Y-m-d',$r[inputtime])}" title="{date('Y-m-d',$r[inputtime])}">
+              <i class="iconfont icon-time"></i>{date('Y-m-d',$r[inputtime])}
+            </time>
+            <span class="view fl"><i class="iconfont icon-view"></i>{$views}</span>
+            <span class="hidden-sm-md-lg tag ellipsis fr"> <i class="iconfont icon-tag"></i>{$CATEGORYS[$r[catid]][catname]}  </span>
+          </p>
+        </div>
+      </article>
+      {/loop}
+      <div class="pagebar">
+        <div class="nav-links">{$pages_template2}</div>
+      </div>
+      {/pc}
+    </div>
+  </section>
+
+  <aside id="sidebar" class="hidden-sm-md-lg fr">
+    <div class="theiaStickySidebar">
+      <section id="aside_hot" class="widget widget_aside_hot sb br mb">
+        <p class="c-title mb"><span class="name">热门文章</span></p>
+        <ul class="widget-content aside_hot">
+          {pc:get sql="SELECT * FROM `v9_news` a,`v9_hits` p WHERE a.catid=p.catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" num="10"}
+          {loop $data $r}
+          <li class="clearfix"><span class="list list-1">{$n}.</span><a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}">{str_cut($r['title'],60)}</a></li>
+          {/loop}
+          {/pc}
+        </ul>
+      </section>
+      <section id="aside_hot_tag" class="widget widget_aside_hot_tag sb br mb">
+        <p class="c-title mb"><span class="name">热门标签</span></p>
+        <ul class="widget-content aside_hot_tag">
+          {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+          {loop $data $r}
+          <li><a href="{str_replace('www.','m.',$r[url])}">{$r[catname]}<span class="tag-count"> ({$r[items]})</span></a></li>
+          {pc:get sql="select * from v9_category where parentid =$r[catid] order by listorder ASC" return="data"}
+          {loop $data $r2}
+          <li><a href="{$r2[url]}">{$r2[catname]}<span class="tag-count"> ({$r2[items]})</span></a></li>
+          {/loop}
+          {/pc}
+          {/loop}
+          {/pc}
+        </ul>
+      </section>
+    </div>
+  </aside>
+</div>
+
+{template "wap","footer"}
+
+</body>
+</html>

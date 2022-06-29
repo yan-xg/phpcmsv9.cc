@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>{$catname}-{$SEO['site_title']}</title>
+    <meta name="keywords" content="{$SEO['keyword']}">
+    <meta name="description" content="{$SEO['description']}">
+    {template "wap","meta"}
+</head>
+<body>
+<div id="wrapper">
+    {template "wap","header"}
+
+  <div id="main">
+    <div class="wrap">
+      <div class="breadcrumb"><span class="current"><i class="icon-home"></i><a href="{siteurl($siteid)}">主页</a> > {catpos($catid)}</span></div>
+      <!-- .breadcrumbs -->
+      <div class="posts">
+          {pc:content action="lists" catid="$catid" num="10" order="id DESC" page="$page"}
+          {php $categorys = getcache('category_content_'.$siteid,'commons');}
+          {loop $data $r}
+          {php $category = $categorys[$r[catid]];}
+          {php $modelid = $category['modelid'];}
+          {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+          {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+          <div class="content">
+              <div class="content-header">
+                  <a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}" target="_blank"><h2>{$r['title']}</h2></a>
+                  <div class="content-info">
+                      <span class="mr10 postclock">({date('Y-m-d',$r[inputtime])})</span>
+                      <span class="mr10 postuser"><i class="icon-user"></i>{$r['username']}<a></a></span>
+                      <span class="mr10 posteye"><i class=" icon-eye" ></i>{$views}</span>
+                  </div>
+              </div>
+
+              <div class="content-img"> <a href="{str_replace('www.','m.',$r['url'])}" title="{$r['title']}" target="_blank"> <img class="lazy thumbnail" src="{thumb($r['thumb'])}" data-original="{thumb($r['thumb'])}" alt="{$r['title']}" /> </a> </div>
+              <div class="content-note">
+                  <p>{$r['description']}...</p>
+                  <span class="category-color"><a href="{$CATEGORYS[$r[catid]][url]}">{$CATEGORYS[$r[catid]][catname]}</a></span>
+              </div>
+          </div>
+          {/loop}
+          <div class="post-read-more content">{$li_pages}</div>
+          {/pc}
+      </div>
+
+</div>
+    </div>
+    <div class="sidebar">
+        <div class="widget widget_suxingme_hotpost">
+            <div class="w_title">
+                <h3>热门文章</h3>
+            </div>
+            <ul>
+                {pc:get sql="SELECT * FROM `v9_news` a,`v9_hits` p WHERE a.catid=p.catid and a.status=99 and a.inputtime > UNIX_TIMESTAMP()-7*3600*24 and CONCAT(  'c-1-',a.id ) = p.hitsID ORDER BY p.weekviews DESC" start="6"  num="10"}
+                {php $categorys = getcache('category_content_'.$siteid,'commons');}
+                {loop $data $r}
+                {php $category = $categorys[$r[catid]];}
+                {php $modelid = $category['modelid'];}
+                {php $db = pc_base::load_model('hits_model'); $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[id])); $views = $_r[views]; }
+                {php $comment_tag = pc_base::load_app_class("comment_tag", "comment"); $comment_total = $comment_tag->count(array('commentid'=>'content_'.$r[catid].'-'.$r[id].'-'.$modelid));}
+                <li><a href="{str_replace('www.','m.',$r['url'])} rel="bookmark" title="{$r['title']}">
+                    <p class="title">{str_cut($r['title'],50)}</p>
+                </a></li>
+                {/loop}
+                {/pc}
+            </ul>
+        </div>
+
+        <div class="widget widget_suxingme_hotpost">
+            <div class="w_title">
+                <h3>最新文章</h3>
+            </div>
+            <ul>
+                {pc:get sql="SELECT * FROM v9_news a left join v9_news_data b on a.id=b.id WHERE a.catid=$catid ORDER BY inputtime DESC" num="10"}
+                {loop $data $v}
+                <li><a href="{str_replace('www.','m.',$v['url'])}" rel="bookmark" title="{$v['title']}"><p class="title">{str_cut($v['title'],50)}</p></a></li>
+                {/loop}
+                {/pc}
+            </ul>
+        </div>
+
+        <div class="widget widget_suxingme_hotpost">
+            <div class="w_title">
+                <h3>随便看看</h3>
+            </div>
+            <ul>
+                {pc:get sql="SELECT * FROM v9_news a,v9_news_data b WHERE a.id=b.id ORDER BY rand()" num="10" cache="3600"}
+                {loop $data $v}
+                <li><a href="{str_replace('www.','m.',$r[url])}" rel="bookmark" title="{$v['title']}"><p class="title">{str_cut($v['title'],50)}</p></a></li>
+                {/loop}
+                {/pc}
+            </ul>
+        </div>
+
+
+
+        <div class="widget suxingme_tag">
+            <div class="w_title">
+                <h3>热门标签</h3>
+            </div>
+            <div class="widge_tags">
+                <ul class="widget_tags_ul">
+                    {pc:content action="category" catid="0" num="0" siteid="$siteid" order="catid ASC"}
+                    {loop $data $r}
+                    <li><a href="{str_replace('www.','m.',$r[url])}" title="{$r[catname]}" >{$r[catname]} </a></li>
+                    {pc:get sql="select * from v9_category where parentid =$r[catid] order by listorder ASC" return="data"}
+                    {loop $data $r2}
+                    <li><a href="{$r2[url]}" title="{$r2[catname]}" >{$r2[catname]} </a></li>
+                    {/loop}
+                    {/pc}
+                    {/loop}
+                    {/pc}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{template "wap","footer"}
+
+<script type="text/javascript" src="{M_APP_PATH}/statics/4/js/responsiveslides.min.js"></script>
+<script>
+    $(function() {
+        $('#suxingmeslider').responsiveSlides({
+            pager: true,
+            nav: true,
+            namespace: 'centered-btns',
+        });
+    });
+</script>
+<script type='text/javascript' src='{M_APP_PATH}/statics/4/js/wp-embed.min.js'></script>
+
+</body>
+</html>
